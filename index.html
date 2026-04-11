@@ -848,6 +848,47 @@
             font-size: 14px;
         }
 
+        /* Indicador de digitação */
+        .typing-indicator {
+            background: linear-gradient(135deg, #e8eaf6, #c5cae9);
+            padding: 12px 16px;
+            border-radius: 18px;
+            border-bottom-left-radius: 4px;
+            max-width: 85%;
+            align-self: flex-start;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .typing-indicator span {
+            width: 8px;
+            height: 8px;
+            background-color: #667eea;
+            border-radius: 50%;
+            display: inline-block;
+            animation: typingBounce 1.4s infinite ease-in-out both;
+        }
+
+        .typing-indicator span:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        @keyframes typingBounce {
+            0%, 80%, 100% { 
+                transform: scale(0.6);
+                opacity: 0.5;
+            }
+            40% { 
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
         .chat-input-area {
             display: flex;
             padding: 12px;
@@ -877,6 +918,12 @@
         .chat-input-area button:hover {
             transform: scale(1.02);
             opacity: 0.9;
+        }
+
+        .chat-input-area button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
         }
 
         .contact-options-chat {
@@ -1290,37 +1337,92 @@
         function filtrarHistorico(){ const termo=document.getElementById('searchHistorico').value.toLowerCase(); document.querySelectorAll('#historicoBody tr').forEach(tr=>{ tr.style.display=tr.textContent.toLowerCase().includes(termo)?'':'none'; }); }
         function copiarDadosPagamento(){ const dados=`eMola: ${DADOS_PAGAMENTO.mpesa.numero} - ${DADOS_PAGAMENTO.mpesa.nome}\nPaga Fácil: ${DADOS_PAGAMENTO.pagafacil.codigo} - ${DADOS_PAGAMENTO.pagafacil.nome}`; copiarTexto(dados); }
 
-        // ==================== ASSISTENTE VIRTUAL ====================
+        // ==================== ASSISTENTE VIRTUAL (COM SIMULAÇÃO DE DIGITAÇÃO) ====================
         const chatContainer=document.getElementById('chatContainer');
         const chatMessages=document.getElementById('chatMessages');
         const chatInput=document.getElementById('chatInput');
+        const sendBtn = document.getElementById('sendChatBtn');
         
-        function addMessage(text, isUser=false){ const div=document.createElement('div'); div.className=isUser?'message-user':'message-bot'; div.textContent=text; chatMessages.appendChild(div); chatMessages.scrollTop=chatMessages.scrollHeight; }
+        let isTyping = false;
+        
+        // Cria o indicador de digitação
+        function createTypingIndicator() {
+            const indicator = document.createElement('div');
+            indicator.className = 'typing-indicator';
+            indicator.id = 'typingIndicator';
+            indicator.innerHTML = '<span></span><span></span><span></span>';
+            return indicator;
+        }
+        
+        function showTypingIndicator() {
+            if (isTyping) return;
+            isTyping = true;
+            const indicator = createTypingIndicator();
+            chatMessages.appendChild(indicator);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // Desabilita input e botão enquanto "digita"
+            chatInput.disabled = true;
+            sendBtn.disabled = true;
+        }
+        
+        function hideTypingIndicator() {
+            const indicator = document.getElementById('typingIndicator');
+            if (indicator) indicator.remove();
+            isTyping = false;
+            
+            // Reabilita input e botão
+            chatInput.disabled = false;
+            sendBtn.disabled = false;
+            chatInput.focus();
+        }
+        
+        function addMessage(text, isUser = false) {
+            const div = document.createElement('div');
+            div.className = isUser ? 'message-user' : 'message-bot';
+            div.textContent = text;
+            chatMessages.appendChild(div);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // Simula digitação caractere por caractere (opcional, para textos pequenos)
+        async function typeMessage(fullText, speed = 30) {
+            const div = document.createElement('div');
+            div.className = 'message-bot';
+            div.textContent = '';
+            chatMessages.appendChild(div);
+            
+            for (let i = 0; i < fullText.length; i++) {
+                div.textContent += fullText[i];
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                await new Promise(resolve => setTimeout(resolve, speed));
+            }
+        }
         
         function resetChat(){
-            chatMessages.innerHTML='';
+            chatMessages.innerHTML = '';
             addMessage(' Olá! Sou o assistente virtual da Agência Miller. Pergunte-me sobre pacotes, preços, pagamentos, prazos ou qualquer dúvida. Estou aqui para ajudar!');
         }
         
         function showHumanContactOptions(){
-            const optionsDiv=document.createElement('div'); 
-            optionsDiv.className='message-bot'; 
-            optionsDiv.innerHTML=`<strong> Precisa de atendimento humano?</strong><br>Escolha uma opção para falar conosco:<div class="contact-options-chat"><div class="contact-chip" data-contact-type="whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</div><div class="contact-chip" data-contact-type="sms"><i class="fas fa-sms"></i> SMS</div><div class="contact-chip" data-contact-type="call"><i class="fas fa-phone-alt"></i> Ligação</div></div>`;
+            const optionsDiv = document.createElement('div'); 
+            optionsDiv.className = 'message-bot'; 
+            optionsDiv.innerHTML = `<strong> Precisa de atendimento humano?</strong><br>Escolha uma opção para falar conosco:<div class="contact-options-chat"><div class="contact-chip" data-contact-type="whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</div><div class="contact-chip" data-contact-type="sms"><i class="fas fa-sms"></i> SMS</div><div class="contact-chip" data-contact-type="call"><i class="fas fa-phone-alt"></i> Ligação</div></div>`;
             chatMessages.appendChild(optionsDiv);
-            chatMessages.scrollTop=chatMessages.scrollHeight;
+            chatMessages.scrollTop = chatMessages.scrollHeight;
             document.querySelectorAll('.contact-chip').forEach(chip=>{
                 chip.addEventListener('click',(e)=>{
-                    const type=chip.dataset.contactType;
-                    if(type==='whatsapp') window.open('https://wa.me/258867047493?text=Olá! Preciso de ajuda da Agência Miller','_blank');
-                    else if(type==='sms') window.location.href='sms:+258867047493?body=Olá! Preciso de ajuda da Agência Miller';
-                    else if(type==='call') window.location.href='tel:+258867047493';
+                    const type = chip.dataset.contactType;
+                    if(type === 'whatsapp') window.open('https://wa.me/258867047493?text=Olá! Preciso de ajuda da Agência Miller','_blank');
+                    else if(type === 'sms') window.location.href = 'sms:+258867047493?body=Olá! Preciso de ajuda da Agência Miller';
+                    else if(type === 'call') window.location.href = 'tel:+258867047493';
                     mostrarNotificacao('Redirecionando para atendimento...','success');
                 });
             });
         }
         
         function botResponse(question){
-            const q=question.toLowerCase().trim();
+            const q = question.toLowerCase().trim();
             
             if(q.includes('pacote') || q.includes('internet') || q.includes('dados') || q.includes('mb') || q.includes('giga') || q.includes('gb')){
                 return ` **PACOTES DISPONÍVEIS:**\n\n DIÁRIOS: 247MB (7MT), 353MB (10MT), 529MB (15MT), 715MB (20MT), 1050MB (30MT), 1480MB (40MT), 1756MB (50MT), 2640MB (75MT), 3580MB (100MT)\n\n SEMANAIS: 857MB (30MT), 1785MB (50MT), 2967MB (85MT), 3468MB (100MT), 5300MB (150MT), 7150MB (200MT), 10750MB (300MT)\n\n MENSAIS: 2879MB (100MT), 7050MB (200MT), 10569MB (300MT), 17980MB (500MT), 35878MB (1000MT), 71590MB (2000MT)`;
@@ -1354,30 +1456,45 @@
             return null;
         }
         
-        function sendMessage(){
-            const msg=chatInput.value.trim();
-            if(!msg) return;
-            addMessage(msg,true);
-            chatInput.value='';
-            setTimeout(()=>{
-                const response=botResponse(msg);
-                if(response) addMessage(response);
-            },400);
+        async function sendMessage(){
+            const msg = chatInput.value.trim();
+            if(!msg || isTyping) return;
+            
+            addMessage(msg, true);
+            chatInput.value = '';
+            
+            // Mostra indicador de digitação
+            showTypingIndicator();
+            
+            // Simula tempo de "digitação" (entre 1.5 e 2.5 segundos)
+            const typingDelay = 1500 + Math.random() * 1000;
+            
+            setTimeout(async () => {
+                hideTypingIndicator();
+                const response = botResponse(msg);
+                if(response) {
+                    // Usa efeito de digitação para respostas curtas, ou adiciona direto para longas
+                    if (response.length < 150) {
+                        await typeMessage(response, 25);
+                    } else {
+                        addMessage(response);
+                    }
+                }
+            }, typingDelay);
         }
         
         // Eventos do Chat
-        document.getElementById('chatFloatBtn').addEventListener('click',()=>{ 
-            chatContainer.style.display='flex';
-            // Remove a bolinha de notificação ao abrir o chat
+        document.getElementById('chatFloatBtn').addEventListener('click', ()=>{ 
+            chatContainer.style.display = 'flex';
             const badge = document.querySelector('.chat-notification-badge');
             if(badge) badge.style.display = 'none';
         });
-        document.getElementById('closeChatBtn').addEventListener('click',()=>{ 
-            chatContainer.style.display='none';
+        document.getElementById('closeChatBtn').addEventListener('click', ()=>{ 
+            chatContainer.style.display = 'none';
             resetChat();
         });
-        document.getElementById('sendChatBtn').addEventListener('click',sendMessage);
-        chatInput.addEventListener('keypress',(e)=>{ if(e.key==='Enter') sendMessage(); });
+        sendBtn.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') sendMessage(); });
         
         // INICIALIZAÇÃO
         document.addEventListener('DOMContentLoaded',()=>{
