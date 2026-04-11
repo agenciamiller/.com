@@ -358,6 +358,53 @@
             border-color: #1e3c72;
         }
 
+        /* Botões de discagem rápida */
+        .quick-dial-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .quick-dial-btn {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+            flex: 1;
+            justify-content: center;
+            min-width: 120px;
+        }
+
+        .quick-dial-btn.pagafacil {
+            background: linear-gradient(135deg, #dc3545, #e83e8c);
+        }
+
+        .quick-dial-btn.emola {
+            background: linear-gradient(135deg, #007bff, #6610f2);
+        }
+
+        .quick-dial-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .quick-dial-btn:active {
+            transform: translateY(0);
+        }
+
+        .quick-dial-btn i {
+            font-size: 14px;
+        }
+
         /* Pacotes */
         .pacotes-categoria {
             margin-bottom: 25px;
@@ -1205,6 +1252,7 @@
             .tabela-historico { font-size: 0.75em; }
             .chat-container { width: 90%; right: 5%; bottom: 80px; }
             .chat-messages { height: 280px; }
+            .quick-dial-btn { min-width: 100%; }
         }
     </style>
 </head>
@@ -1247,8 +1295,35 @@
                         <div class="passo-pagamento"><div class="passo-numero">4</div><div class="passo-conteudo"><strong>Guarde o comprovante</strong><p>Anote o ID da transação ou tire print</p></div></div>
                         <div class="passo-pagamento"><div class="passo-numero">5</div><div class="passo-conteudo"><strong>Registre no sistema</strong><p>Preencha o formulário com seus dados e ID da transação</p></div></div>
                     </div>
-                    <div class="metodo-pagamento"><h5><i class="fas fa-mobile-alt"></i> eMola</h5><div class="dados-pagamento"><p><i class="fas fa-phone"></i> <strong>Número:</strong> 867047493</p><p><i class="fas fa-user"></i> <strong>Nome:</strong> Aster Eusébio Serote</p></div></div>
-                    <div class="metodo-pagamento"><h5><i class="fas fa-building"></i> VODACOM PAGA FÁCIL</h5><div class="dados-pagamento"><p><i class="fas fa-barcode"></i> <strong>Código:</strong> 1232359</p><p><i class="fas fa-store"></i> <strong>Nome:</strong> EUGENIO-Venda Online</p></div></div>
+                    
+                    <!-- eMola -->
+                    <div class="metodo-pagamento">
+                        <h5><i class="fas fa-mobile-alt"></i> eMola</h5>
+                        <div class="dados-pagamento">
+                            <p><i class="fas fa-phone"></i> <strong>Número:</strong> 867047493</p>
+                            <p><i class="fas fa-user"></i> <strong>Nome:</strong> Aster Eusébio Serote</p>
+                            <div class="quick-dial-buttons">
+                                <button class="quick-dial-btn emola" id="discarEmolaBtn">
+                                    <i class="fas fa-phone-alt"></i> Fazer o pagamento 
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Vodacom Paga Fácil -->
+                    <div class="metodo-pagamento">
+                        <h5><i class="fas fa-building"></i> VODACOM PAGA FÁCIL</h5>
+                        <div class="dados-pagamento">
+                            <p><i class="fas fa-barcode"></i> <strong>Código:</strong> 1232359</p>
+                            <p><i class="fas fa-store"></i> <strong>Nome:</strong> EUGENIO-Venda Online</p>
+                            <div class="quick-dial-buttons">
+                                <button class="quick-dial-btn pagafacil" id="discarPagaFacilBtn">
+                                    <i class="fas fa-phone-alt"></i> Fazer o pagamento 
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <button class="btn-copiar" id="copiarDadosBtn"><i class="fas fa-copy"></i> COPIAR DADOS DE PAGAMENTO</button>
                 </div>
 
@@ -1337,6 +1412,19 @@
         function filtrarHistorico(){ const termo=document.getElementById('searchHistorico').value.toLowerCase(); document.querySelectorAll('#historicoBody tr').forEach(tr=>{ tr.style.display=tr.textContent.toLowerCase().includes(termo)?'':'none'; }); }
         function copiarDadosPagamento(){ const dados=`eMola: ${DADOS_PAGAMENTO.mpesa.numero} - ${DADOS_PAGAMENTO.mpesa.nome}\nPaga Fácil: ${DADOS_PAGAMENTO.pagafacil.codigo} - ${DADOS_PAGAMENTO.pagafacil.nome}`; copiarTexto(dados); }
 
+        // ==================== FUNÇÕES DE DISCAGEM RÁPIDA ====================
+        function discarEmola() {
+            // Código USSD para eMola (geralmente *898#)
+            window.location.href = 'tel:*898%23';
+            mostrarNotificacao('A discar *898# para eMola...', 'success');
+        }
+        
+        function discarPagaFacil() {
+            // Código USSD para Vodacom Paga Fácil (geralmente *150#)
+            window.location.href = 'tel:*150%23';
+            mostrarNotificacao('A discar *150# para Vodacom Paga Fácil...', 'success');
+        }
+
         // ==================== ASSISTENTE VIRTUAL (COM SIMULAÇÃO DE DIGITAÇÃO) ====================
         const chatContainer=document.getElementById('chatContainer');
         const chatMessages=document.getElementById('chatMessages');
@@ -1385,8 +1473,8 @@
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
         
-        // Simula digitação caractere por caractere (opcional, para textos pequenos)
-        async function typeMessage(fullText, speed = 30) {
+        // Simula digitação caractere por caractere
+        async function typeMessage(fullText, speed = 25) {
             const div = document.createElement('div');
             div.className = 'message-bot';
             div.textContent = '';
@@ -1431,10 +1519,10 @@
                 return ` **TABELA DE PREÇOS:**\n• Diários: 7MT a 100MT\n• Semanais: 30MT a 300MT\n• Mensais: 100MT a 2000MT\n\nOs preços variam conforme a quantidade de dados. Veja todos os pacotes na lista ao lado!`;
             }
             if(q.includes('pagamento') || q.includes('pagar') || q.includes('emola') || q.includes('pagafácil') || q.includes('paga fácil') || q.includes('transferência') || q.includes('transferir')){
-                return ` **MÉTODOS DE PAGAMENTO:**\n\n✅ eMola: Número 867047493 - Aster Eusébio Serote\n✅ Vodacom Paga Fácil: Código 1232359 - EUGENIO-Venda Online\n\nSiga as instruções na seção "DADOS PARA PAGAMENTO". Envie o valor EXATO do pacote escolhido e guarde o ID da transação.`;
+                return ` **MÉTODOS DE PAGAMENTO:**\n\n✅ eMola: Número 867047493 - Aster Eusébio Serote\n✅ Vodacom Paga Fácil: Código 1232359 - EUGENIO-Venda Online\n\nUse os botões "Discar" para aceder diretamente aos menus USSD. Siga as instruções na seção "DADOS PARA PAGAMENTO".`;
             }
             if(q.includes('como comprar') || q.includes('comprar') || q.includes('adquirir') || q.includes('como adquirir') || q.includes('processo')){
-                return ` **PASSO A PASSO PARA COMPRAR:**\n\n1️⃣ Escolha um pacote na lista ao lado\n2️⃣ Faça o pagamento para eMola ou Paga Fácil (valores acima)\n3️⃣ Preencha o formulário com seus dados e o ID da transação\n4️⃣ Aguarde a confirmação (status muda para "Pago")\n5️⃣ Seu pacote será ativado em até 24h úteis!`;
+                return ` **PASSO A PASSO PARA COMPRAR:**\n\n1️⃣ Escolha um pacote na lista ao lado\n2️⃣ Faça o pagamento para eMola ou Paga Fácil (use os botões de discagem rápida)\n3️⃣ Preencha o formulário com seus dados e o ID da transação\n4️⃣ Aguarde a confirmação (status muda para "Pago")\n5️⃣ Seu pacote será ativado em até 24h úteis!`;
             }
             if(q.includes('prazo') || q.includes('demora') || q.includes('ativação') || q.includes('ativar') || q.includes('quanto tempo') || q.includes('quando')){
                 return `⏱️ **PRAZO DE ATIVAÇÃO:**\n\nApós o registro do pagamento, a ativação é feita em até 24 horas úteis. Você pode acompanhar o status no histórico de pagamentos. Quando aparecer "Pago", seu pacote já está ativo!`;
@@ -1501,6 +1589,8 @@
             carregarPagamentos();
             renderizarPacotes();
             preencherSelectPacotes();
+            
+            // Botões existentes
             document.getElementById('copiarDadosBtn').onclick=()=>mostrarLoading({ message:'Copiando', successMessage:'Dados copiados!', onComplete:copiarDadosPagamento });
             document.getElementById('btnEnviar').onclick=(e)=>{ e.preventDefault(); mostrarLoading({ message:'Registrando', successMessage:'Registrado!', onComplete:processarFormulario }); };
             document.getElementById('exportarHistoricoBtn').onclick=()=>mostrarLoading({ message:'Exportando', successMessage:'Exportado!', onComplete:exportarHistorico });
@@ -1509,6 +1599,11 @@
             document.getElementById('enviarWhatsAppBtn').onclick=()=>window.open(`https://wa.me/?text=${encodeURIComponent(ultimaMensagem)}`,'_blank');
             document.getElementById('confirmActionBtn').onclick=()=>{ if(acaoConfirmar) acaoConfirmar(); };
             document.getElementById('cancelConfirmBtn').onclick=()=>{ fecharModal('confirmModal'); acaoConfirmar=null; };
+            
+            // Novos botões de discagem rápida
+            document.getElementById('discarEmolaBtn').onclick = discarEmola;
+            document.getElementById('discarPagaFacilBtn').onclick = discarPagaFacil;
+            
             document.querySelectorAll('.close').forEach(btn=>{ btn.onclick=()=>fecharModal(btn.dataset.modal); });
             window.onclick=(e)=>{ if(e.target.classList.contains('modal')) fecharModal(e.target.id); };
             document.getElementById('searchPacotes').addEventListener('keyup',filtrarPacotes);
