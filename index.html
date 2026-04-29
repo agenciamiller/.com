@@ -539,6 +539,40 @@
             transform: translateY(0);
         }
 
+        /* Botão de escolha de envio */
+        .choice-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            justify-content: center;
+        }
+        .choice-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 16px;
+        }
+        .choice-btn.whatsapp {
+            background: #25D366;
+            color: white;
+        }
+        .choice-btn.sms {
+            background: #2196F3;
+            color: white;
+        }
+        .choice-btn:hover {
+            transform: translateY(-3px);
+            filter: brightness(1.05);
+        }
+
         /* Formulário */
         .form-group {
             margin-bottom: 20px;
@@ -1301,7 +1335,7 @@
                         <h5><i class="fas fa-mobile-alt"></i> eMola</h5>
                         <div class="dados-pagamento">
                             <p><i class="fas fa-phone"></i> <strong>Número:</strong> 867047493</p>
-                            <p><i class="fas fa-user"></i> <strong>Nome:</strong> Aster Eusébio Serote</p>
+                            <p><i class="fas fa-user"></i> <strong>Nome:</strong> Aster Eusébio Serrote</p>
                             <div class="quick-dial-buttons">
                                 <button class="quick-dial-btn emola" id="discarEmolaBtn">
                                     <i class="fas fa-phone-alt"></i> Fazer o pagamento 
@@ -1380,14 +1414,26 @@
         </div>
     </div>
 
-    <div id="mensagemModal" class="modal"><div class="modal-content"><span class="close" data-modal="mensagemModal">&times;</span><h3><i class="fab fa-whatsapp"></i> Mensagem Gerada</h3><div id="mensagemPrevia" style="background:#f5f5f5; padding:15px; border-radius:10px; white-space:pre-wrap; font-size:13px; margin:15px 0; max-height:300px; overflow-y:auto;"></div><div style="display: flex; gap: 10px;"><button class="btn" id="copiarMensagemBtn" style="flex:2;"><i class="fas fa-copy"></i> COPIAR</button><button class="btn" id="enviarWhatsAppBtn" style="flex:1; background:#25D366;"><i class="fab fa-whatsapp"></i></button></div></div></div>
+    <!-- MODAL DE ESCOLHA DE ENVIO (WHATSAPP OU SMS) -->
+    <div id="escolhaModal" class="modal">
+        <div class="modal-content">
+            <span class="close" data-modal="escolhaModal">&times;</span>
+            <h3><i class="fas fa-paper-plane"></i> Enviar confirmação</h3>
+            <div id="mensagemPrevia" style="background:#f5f5f5; padding:15px; border-radius:10px; white-space:pre-wrap; font-size:13px; margin:15px 0; max-height:200px; overflow-y:auto;"></div>
+            <div class="choice-buttons">
+                <button class="choice-btn whatsapp" id="enviarWhatsAppBtn"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+                <button class="choice-btn sms" id="enviarSMSBtn"><i class="fas fa-sms"></i> SMS Normal</button>
+            </div>
+        </div>
+    </div>
+
     <div id="confirmModal" class="modal"><div class="modal-content"><span class="close" data-modal="confirmModal">&times;</span><h3 style="color: #dc3545;"><i class="fas fa-exclamation-triangle"></i> Confirmar</h3><p id="confirmMessage" style="margin: 20px 0; text-align: center;"></p><div style="display: flex; gap: 10px;"><button class="btn" id="cancelConfirmBtn" style="background: #6c757d;">CANCELAR</button><button class="btn" id="confirmActionBtn" style="background: #dc3545;">CONFIRMAR</button></div></div></div>
 
     <script>
         // ==================== CONFIGURAÇÕES EXISTENTES (NÃO ALTERADAS) ====================
-        const DADOS_PAGAMENTO = { mpesa: { numero: "867047493", nome: "Aster Eusébio Serote" }, pagafacil: { codigo: "1232359", nome: "EUGENIO-Venda Online" } };
+        const DADOS_PAGAMENTO = { mpesa: { numero: "867047493", nome: "Aster Eusébio Serrote" }, pagafacil: { codigo: "1232359", nome: "EUGENIO-Venda Online" } };
         const pacotes = { diarios: [{ nome: "247MB", preco: "7MT" }, { nome: "353MB", preco: "10MT" }, { nome: "529MB", preco: "15MT" }, { nome: "715MB", preco: "20MT" }, { nome: "1050MB", preco: "30MT" }, { nome: "1480MB", preco: "40MT" }, { nome: "1756MB", preco: "50MT" }, { nome: "2640MB", preco: "75MT" }, { nome: "3580MB", preco: "100MT" }], semanais: [{ nome: "857MB", preco: "30MT" }, { nome: "1785MB", preco: "50MT" }, { nome: "2967MB", preco: "85MT" }, { nome: "3468MB", preco: "100MT" }, { nome: "5300MB", preco: "150MT" }, { nome: "7150MB", preco: "200MT" }, { nome: "10750MB", preco: "300MT" }], mensais: [{ nome: "2879MB", preco: "100MT" }, { nome: "7050MB", preco: "200MT" }, { nome: "10569MB", preco: "300MT" }, { nome: "17980MB", preco: "500MT" }, { nome: "35878MB", preco: "1000MT" }, { nome: "71590MB", preco: "2000MT" }] };
-        let pagamentos = [], ultimaMensagem = '', acaoConfirmar = null, loadingActive = false;
+        let pagamentos = [], ultimaMensagem = '', acaoConfirmar = null, loadingActive = false, pagamentoTemp = null;
 
         function mostrarLoading(options) { return new Promise((resolve) => { if(loadingActive) { resolve(); return; } loadingActive=true; const overlay=document.getElementById('clickLoading'); const textEl=document.getElementById('loadingText'); const subtextEl=document.getElementById('loadingSubtext'); const timerSpan=document.getElementById('timerSeconds'); if(textEl) textEl.textContent=options.message||'Processando'; if(subtextEl) subtextEl.textContent=options.submessage||'Aguarde'; overlay.style.display='flex'; let segundos=3; if(timerSpan) timerSpan.textContent=segundos; const timer=setInterval(()=>{ segundos--; if(timerSpan) timerSpan.textContent=segundos>=0?segundos:0; if(segundos<=0) clearInterval(timer); },1000); setTimeout(()=>{ clearInterval(timer); overlay.style.display='none'; loadingActive=false; if(options.onComplete) options.onComplete(); if(options.successMessage) mostrarNotificacao(options.successMessage,'success'); resolve(); },3000); }); }
         function mostrarNotificacao(mensagem, tipo) { let notif=document.getElementById('notification'); if(!notif){ notif=document.createElement('div'); notif.id='notification'; notif.className='notification'; notif.innerHTML='<i class="fas fa-info-circle"></i><span id="notifMsg"></span>'; document.body.appendChild(notif); } notif.className='notification '+(tipo||'success'); document.getElementById('notifMsg').textContent=mensagem; notif.style.display='flex'; setTimeout(()=>{ notif.style.display='none'; },2500); }
@@ -1405,35 +1451,165 @@
         function filtrarPacotes(){ const termo=document.getElementById('searchPacotes').value.toLowerCase(); document.querySelectorAll('.pacote-item').forEach(item=>{ item.style.display=item.textContent.toLowerCase().includes(termo)?'flex':'none'; }); }
         function validarFormulario(){ let ok=true; const nome=document.getElementById('nomeCliente').value.trim(), celular=document.getElementById('celular').value.trim(), pacote=document.getElementById('pacote').value, transacao=document.getElementById('transacaoID').value.trim(); document.querySelectorAll('.error-message').forEach(e=>e.style.display='none'); if(!nome){ document.getElementById('errorNome').style.display='block'; ok=false; } if(!celular){ document.getElementById('errorCelular').style.display='block'; ok=false; } else if(!/^[0-9]{9,12}$/.test(celular)){ document.getElementById('errorCelular').innerHTML='<i class="fas fa-exclamation-circle"></i> Celular inválido'; document.getElementById('errorCelular').style.display='block'; ok=false; } if(!pacote){ document.getElementById('errorPacote').style.display='block'; ok=false; } if(!transacao){ document.getElementById('errorTransacao').style.display='block'; ok=false; } return ok; }
         function gerarMensagem(d){ const dadosPag=d.metodo.includes('eMola')?`eMola: ${DADOS_PAGAMENTO.mpesa.numero} - ${DADOS_PAGAMENTO.mpesa.nome}`:`Paga Fácil: ${DADOS_PAGAMENTO.pagafacil.codigo} - ${DADOS_PAGAMENTO.pagafacil.nome}`; return `NOVO PAGAMENTO - AGÊNCIA MILLER\n\nCliente: ${d.nome}\nCelular: ${d.celular}\nPacote: ${d.pacote}\nID Transação: ${d.transacaoID}\nMétodo: ${d.metodo}\nConta: ${dadosPag}\nMensagem: ${d.observacoes}\nData: ${d.data}\nStatus: ${d.status}`; }
-        function processarFormulario(){ if(!validarFormulario()){ mostrarNotificacao('Preencha todos os campos','error'); return; } const pagamento={ id:Date.now(), data:new Date().toLocaleString('pt-BR'), nome:document.getElementById('nomeCliente').value.trim(), celular:document.getElementById('celular').value.trim(), pacote:document.getElementById('pacote').value, transacaoID:document.getElementById('transacaoID').value.trim(), metodo:document.getElementById('metodoPagamento').value, observacoes:document.getElementById('observacoes').value.trim()||'Nenhuma', status:'Pendente' }; pagamentos.push(pagamento); salvarPagamentos(); ultimaMensagem=gerarMensagem(pagamento); document.getElementById('mensagemPrevia').textContent=ultimaMensagem; abrirModal('mensagemModal'); document.getElementById('paymentForm').reset(); document.querySelectorAll('.pacote-item.selected').forEach(i=>i.classList.remove('selected')); renderizarHistorico(); }
-        function renderizarHistorico(){ const tbody=document.getElementById('historicoBody'); tbody.innerHTML=''; if(pagamentos.length===0){ tbody.innerHTML='<tr><td colspan="7" style="text-align:center; padding:20px;">Nenhum registro</td></tr>'; return; } pagamentos.sort((a,b)=>b.id-a.id).forEach(p=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td>${p.data}</td><td>${p.nome}</td><td>${p.celular}</td><td>${p.pacote}</td><td>${p.transacaoID}</td><td class="status-${p.status.toLowerCase()}">${p.status}</td><td><button class="btn-confirmar" data-id="${p.id}"><i class="fas fa-check"></i></button><button class="btn-copiar-msg" data-id="${p.id}"><i class="fas fa-copy"></i></button><button class="btn-deletar" data-id="${p.id}"><i class="fas fa-trash"></i></button></td>`; tbody.appendChild(tr); }); document.querySelectorAll('.btn-confirmar').forEach(btn=>{ btn.onclick=(e)=>{ e.stopPropagation(); const id=parseInt(btn.dataset.id); mostrarLoading({ message:'Atualizando', successMessage:'Status alterado!', onComplete:()=>{ const p=pagamentos.find(p=>p.id===id); if(p) p.status=p.status==='Pendente'?'Pago':'Pendente'; salvarPagamentos(); renderizarHistorico(); } }); }; }); document.querySelectorAll('.btn-copiar-msg').forEach(btn=>{ if(btn.id!=='exportarHistoricoBtn' && btn.id!=='limparHistoricoBtn'){ btn.onclick=(e)=>{ e.stopPropagation(); const id=parseInt(btn.dataset.id); const p=pagamentos.find(p=>p.id===id); if(p) copiarTexto(gerarMensagem(p)); }; } }); document.querySelectorAll('.btn-deletar').forEach(btn=>{ btn.onclick=(e)=>{ e.stopPropagation(); const id=parseInt(btn.dataset.id); document.getElementById('confirmMessage').textContent='Deletar este pagamento?'; abrirModal('confirmModal'); acaoConfirmar=()=>{ mostrarLoading({ message:'Deletando', successMessage:'Removido!', onComplete:()=>{ pagamentos=pagamentos.filter(p=>p.id!==id); salvarPagamentos(); renderizarHistorico(); } }); fecharModal('confirmModal'); }; }; }); }
-        function limparHistorico(){ if(pagamentos.length===0){ mostrarNotificacao('Histórico vazio','error'); return; } document.getElementById('confirmMessage').textContent='Limpar TODO o histórico?'; abrirModal('confirmModal'); acaoConfirmar=()=>{ mostrarLoading({ message:'Limpando', successMessage:'Histórico limpo!', onComplete:()=>{ pagamentos=[]; salvarPagamentos(); renderizarHistorico(); } }); fecharModal('confirmModal'); }; }
-        function exportarHistorico(){ if(pagamentos.length===0){ mostrarNotificacao('Nada para exportar','error'); return; } let txt='HISTÓRICO AGÊNCIA MILLER\n\n'; pagamentos.forEach(p=>{ txt+=`${p.data} | ${p.nome} | ${p.celular} | ${p.pacote} | ${p.transacaoID} | ${p.status}\n`; }); copiarTexto(txt); }
-        function filtrarHistorico(){ const termo=document.getElementById('searchHistorico').value.toLowerCase(); document.querySelectorAll('#historicoBody tr').forEach(tr=>{ tr.style.display=tr.textContent.toLowerCase().includes(termo)?'':'none'; }); }
-        function copiarDadosPagamento(){ const dados=`eMola: ${DADOS_PAGAMENTO.mpesa.numero} - ${DADOS_PAGAMENTO.mpesa.nome}\nPaga Fácil: ${DADOS_PAGAMENTO.pagafacil.codigo} - ${DADOS_PAGAMENTO.pagafacil.nome}`; copiarTexto(dados); }
-
-        // ==================== FUNÇÕES DE DISCAGEM RÁPIDA ====================
-        function discarEmola() {
-            // Código USSD para eMola (geralmente *898#)
-            window.location.href = 'tel:*898%23';
-            mostrarNotificacao('A discar *898# para eMola...', 'success');
+        
+        function processarFormulario(){ 
+            if(!validarFormulario()){ 
+                mostrarNotificacao('Preencha todos os campos','error'); 
+                return; 
+            } 
+            const pagamento = { 
+                id:Date.now(), 
+                data:new Date().toLocaleString('pt-BR'), 
+                nome:document.getElementById('nomeCliente').value.trim(), 
+                celular:document.getElementById('celular').value.trim(), 
+                pacote:document.getElementById('pacote').value, 
+                transacaoID:document.getElementById('transacaoID').value.trim(), 
+                metodo:document.getElementById('metodoPagamento').value, 
+                observacoes:document.getElementById('observacoes').value.trim()||'Nenhuma', 
+                status:'Pendente' 
+            }; 
+            pagamentos.push(pagamento); 
+            salvarPagamentos(); 
+            ultimaMensagem = gerarMensagem(pagamento); 
+            
+            // Mostrar modal de escolha
+            document.getElementById('mensagemPrevia').textContent = ultimaMensagem;
+            abrirModal('escolhaModal');
+            
+            // Guardar o pagamento temp para referência
+            pagamentoTemp = pagamento;
+            
+            document.getElementById('paymentForm').reset(); 
+            document.querySelectorAll('.pacote-item.selected').forEach(i=>i.classList.remove('selected')); 
+            renderizarHistorico(); 
         }
         
-        function discarPagaFacil() {
-            // Código USSD para Vodacom Paga Fácil (geralmente *150#)
-            window.location.href = 'tel:*150%23';
-            mostrarNotificacao('A discar *150# para Vodacom Paga Fácil...', 'success');
+        // Funções de envio
+        function enviarWhatsApp() {
+            const numero = "258867047493"; // Número da agência
+            const texto = encodeURIComponent(ultimaMensagem);
+            window.open(`https://wa.me/${numero}?text=${texto}`, '_blank');
+            fecharModal('escolhaModal');
+            mostrarNotificacao('Redirecionando para WhatsApp...', 'success');
+        }
+        
+        function enviarSMS() {
+            const numero = "867047493"; // Número da agência (sem código do país para SMS local)
+            // Detecta se está em dispositivo móvel
+            if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+                window.location.href = `sms:${numero}?body=${encodeURIComponent(ultimaMensagem)}`;
+            } else {
+                // Fallback para desktop - copia a mensagem
+                copiarTexto(ultimaMensagem);
+                mostrarNotificacao('Mensagem copiada! Envie via SMS no seu celular.', 'success');
+            }
+            fecharModal('escolhaModal');
+        }
+        
+        function renderizarHistorico(){ 
+            const tbody=document.getElementById('historicoBody'); 
+            tbody.innerHTML=''; 
+            if(pagamentos.length===0){ 
+                tbody.innerHTML='<tr><td colspan="7" style="text-align:center; padding:20px;">Nenhum registro</td></tr>'; 
+                return; 
+            } 
+            pagamentos.sort((a,b)=>b.id-a.id).forEach(p=>{ 
+                const tr=document.createElement('tr'); 
+                tr.innerHTML=`<td>${p.data}</td><td>${p.nome}</td><td>${p.celular}</td><td>${p.pacote}</td><td>${p.transacaoID}</td><td class="status-${p.status.toLowerCase()}">${p.status}</td><td><button class="btn-confirmar" data-id="${p.id}"><i class="fas fa-check"></i></button><button class="btn-copiar-msg" data-id="${p.id}"><i class="fas fa-copy"></i></button><button class="btn-deletar" data-id="${p.id}"><i class="fas fa-trash"></i></button></td>`; 
+                tbody.appendChild(tr); 
+            }); 
+            document.querySelectorAll('.btn-confirmar').forEach(btn=>{ 
+                btn.onclick=(e)=>{ 
+                    e.stopPropagation(); 
+                    const id=parseInt(btn.dataset.id); 
+                    mostrarLoading({ message:'Atualizando', successMessage:'Status alterado!', onComplete:()=>{ 
+                        const p=pagamentos.find(p=>p.id===id); 
+                        if(p) p.status=p.status==='Pendente'?'Pago':'Pendente'; 
+                        salvarPagamentos(); 
+                        renderizarHistorico(); 
+                    } }); 
+                }; 
+            }); 
+            document.querySelectorAll('.btn-copiar-msg').forEach(btn=>{ 
+                if(btn.id!=='exportarHistoricoBtn' && btn.id!=='limparHistoricoBtn'){ 
+                    btn.onclick=(e)=>{ 
+                        e.stopPropagation(); 
+                        const id=parseInt(btn.dataset.id); 
+                        const p=pagamentos.find(p=>p.id===id); 
+                        if(p) copiarTexto(gerarMensagem(p)); 
+                    }; 
+                } 
+            }); 
+            document.querySelectorAll('.btn-deletar').forEach(btn=>{ 
+                btn.onclick=(e)=>{ 
+                    e.stopPropagation(); 
+                    const id=parseInt(btn.dataset.id); 
+                    document.getElementById('confirmMessage').textContent='Deletar este pagamento?'; 
+                    abrirModal('confirmModal'); 
+                    acaoConfirmar=()=>{ 
+                        mostrarLoading({ message:'Deletando', successMessage:'Removido!', onComplete:()=>{ 
+                            pagamentos=pagamentos.filter(p=>p.id!==id); 
+                            salvarPagamentos(); 
+                            renderizarHistorico(); 
+                        } }); 
+                        fecharModal('confirmModal'); 
+                    }; 
+                }; 
+            }); 
+        }
+        
+        function limparHistorico(){ 
+            if(pagamentos.length===0){ 
+                mostrarNotificacao('Histórico vazio','error'); 
+                return; 
+            } 
+            document.getElementById('confirmMessage').textContent='Limpar TODO o histórico?'; 
+            abrirModal('confirmModal'); 
+            acaoConfirmar=()=>{ 
+                mostrarLoading({ message:'Limpando', successMessage:'Histórico limpo!', onComplete:()=>{ 
+                    pagamentos=[]; 
+                    salvarPagamentos(); 
+                    renderizarHistorico(); 
+                } }); 
+                fecharModal('confirmModal'); 
+            }; 
+        }
+        
+        function exportarHistorico(){ 
+            if(pagamentos.length===0){ 
+                mostrarNotificacao('Nada para exportar','error'); 
+                return; 
+            } 
+            let txt='HISTÓRICO AGÊNCIA MILLER\n\n'; 
+            pagamentos.forEach(p=>{ 
+                txt+=`${p.data} | ${p.nome} | ${p.celular} | ${p.pacote} | ${p.transacaoID} | ${p.status}\n`; 
+            }); 
+            copiarTexto(txt); 
+        }
+        
+        function filtrarHistorico(){ 
+            const termo=document.getElementById('searchHistorico').value.toLowerCase(); 
+            document.querySelectorAll('#historicoBody tr').forEach(tr=>{ 
+                tr.style.display=tr.textContent.toLowerCase().includes(termo)?'':'none'; 
+            }); 
+        }
+        
+        function copiarDadosPagamento(){ 
+            const dados=`eMola: ${DADOS_PAGAMENTO.mpesa.numero} - ${DADOS_PAGAMENTO.mpesa.nome}\nPaga Fácil: ${DADOS_PAGAMENTO.pagafacil.codigo} - ${DADOS_PAGAMENTO.pagafacil.nome}`; 
+            copiarTexto(dados); 
         }
 
-        // ==================== ASSISTENTE VIRTUAL (COM SIMULAÇÃO DE DIGITAÇÃO) ====================
+        // ==================== FUNÇÕES DE DISCAGEM RÁPIDA ====================
+        function discarEmola() { window.location.href = 'tel:*898%23'; mostrarNotificacao('A discar *898# para eMola...', 'success'); }
+        function discarPagaFacil() { window.location.href = 'tel:*150%23'; mostrarNotificacao('A discar *150# para Vodacom Paga Fácil...', 'success'); }
+
+        // ==================== ASSISTENTE VIRTUAL ====================
         const chatContainer=document.getElementById('chatContainer');
         const chatMessages=document.getElementById('chatMessages');
         const chatInput=document.getElementById('chatInput');
         const sendBtn = document.getElementById('sendChatBtn');
-        
         let isTyping = false;
         
-        // Cria o indicador de digitação
         function createTypingIndicator() {
             const indicator = document.createElement('div');
             indicator.className = 'typing-indicator';
@@ -1448,8 +1624,6 @@
             const indicator = createTypingIndicator();
             chatMessages.appendChild(indicator);
             chatMessages.scrollTop = chatMessages.scrollHeight;
-            
-            // Desabilita input e botão enquanto "digita"
             chatInput.disabled = true;
             sendBtn.disabled = true;
         }
@@ -1458,8 +1632,6 @@
             const indicator = document.getElementById('typingIndicator');
             if (indicator) indicator.remove();
             isTyping = false;
-            
-            // Reabilita input e botão
             chatInput.disabled = false;
             sendBtn.disabled = false;
             chatInput.focus();
@@ -1473,13 +1645,11 @@
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
         
-        // Simula digitação caractere por caractere
         async function typeMessage(fullText, speed = 25) {
             const div = document.createElement('div');
             div.className = 'message-bot';
             div.textContent = '';
             chatMessages.appendChild(div);
-            
             for (let i = 0; i < fullText.length; i++) {
                 div.textContent += fullText[i];
                 chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -1502,8 +1672,8 @@
                 chip.addEventListener('click',(e)=>{
                     const type = chip.dataset.contactType;
                     if(type === 'whatsapp') window.open('https://wa.me/258867047493?text=Olá! Preciso de ajuda da Agência Miller','_blank');
-                    else if(type === 'sms') window.location.href = 'sms:+258867047493?body=Olá! Preciso de ajuda da Agência Miller';
-                    else if(type === 'call') window.location.href = 'tel:+258867047493';
+                    else if(type === 'sms') window.location.href = 'sms:867047493?body=Olá! Preciso de ajuda da Agência Miller';
+                    else if(type === 'call') window.location.href = 'tel:867047493';
                     mostrarNotificacao('Redirecionando para atendimento...','success');
                 });
             });
@@ -1511,7 +1681,6 @@
         
         function botResponse(question){
             const q = question.toLowerCase().trim();
-            
             if(q.includes('pacote') || q.includes('internet') || q.includes('dados') || q.includes('mb') || q.includes('giga') || q.includes('gb')){
                 return ` **PACOTES DISPONÍVEIS:**\n\n DIÁRIOS: 247MB (7MT), 353MB (10MT), 529MB (15MT), 715MB (20MT), 1050MB (30MT), 1480MB (40MT), 1756MB (50MT), 2640MB (75MT), 3580MB (100MT)\n\n SEMANAIS: 857MB (30MT), 1785MB (50MT), 2967MB (85MT), 3468MB (100MT), 5300MB (150MT), 7150MB (200MT), 10750MB (300MT)\n\n MENSAIS: 2879MB (100MT), 7050MB (200MT), 10569MB (300MT), 17980MB (500MT), 35878MB (1000MT), 71590MB (2000MT)`;
             }
@@ -1547,21 +1716,14 @@
         async function sendMessage(){
             const msg = chatInput.value.trim();
             if(!msg || isTyping) return;
-            
             addMessage(msg, true);
             chatInput.value = '';
-            
-            // Mostra indicador de digitação
             showTypingIndicator();
-            
-            // Simula tempo de "digitação" (entre 1.5 e 2.5 segundos)
             const typingDelay = 1500 + Math.random() * 1000;
-            
             setTimeout(async () => {
                 hideTypingIndicator();
                 const response = botResponse(msg);
                 if(response) {
-                    // Usa efeito de digitação para respostas curtas, ou adiciona direto para longas
                     if (response.length < 150) {
                         await typeMessage(response, 25);
                     } else {
@@ -1595,8 +1757,11 @@
             document.getElementById('btnEnviar').onclick=(e)=>{ e.preventDefault(); mostrarLoading({ message:'Registrando', successMessage:'Registrado!', onComplete:processarFormulario }); };
             document.getElementById('exportarHistoricoBtn').onclick=()=>mostrarLoading({ message:'Exportando', successMessage:'Exportado!', onComplete:exportarHistorico });
             document.getElementById('limparHistoricoBtn').onclick=()=>limparHistorico();
-            document.getElementById('copiarMensagemBtn').onclick=()=>mostrarLoading({ message:'Copiando', successMessage:'Mensagem copiada!', onComplete:()=>copiarTexto(ultimaMensagem) });
-            document.getElementById('enviarWhatsAppBtn').onclick=()=>window.open(`https://wa.me/?text=${encodeURIComponent(ultimaMensagem)}`,'_blank');
+            
+            // Botões da modal de escolha
+            document.getElementById('enviarWhatsAppBtn').onclick = enviarWhatsApp;
+            document.getElementById('enviarSMSBtn').onclick = enviarSMS;
+            
             document.getElementById('confirmActionBtn').onclick=()=>{ if(acaoConfirmar) acaoConfirmar(); };
             document.getElementById('cancelConfirmBtn').onclick=()=>{ fecharModal('confirmModal'); acaoConfirmar=null; };
             
