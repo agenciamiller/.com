@@ -22,7 +22,6 @@
             overflow-x: hidden;
         }
 
-        /* Quando uma modal está aberta, pausa as animações do container */
         body.modal-open .container {
             animation: none !important;
             transform: none !important;
@@ -39,7 +38,6 @@
             transform: none !important;
         }
 
-        /* Classe para transição suave ao reativar animações */
         body.modal-closing .container,
         body.modal-closing .pacotes-section,
         body.modal-closing .info-pagamento,
@@ -52,7 +50,6 @@
             transition: opacity 0.3s ease;
         }
 
-        /* Mantém as modais com animação normalmente */
         body.modal-open .modal {
             animation-play-state: running !important;
         }
@@ -61,7 +58,6 @@
             animation-play-state: running !important;
         }
 
-        /* Layout Responsivo */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -77,7 +73,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Grid Responsivo */
         .grid-2cols {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -85,16 +80,10 @@
         }
 
         @media (max-width: 768px) {
-            body {
-                padding: 12px;
-            }
-            .grid-2cols {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
+            body { padding: 12px; }
+            .grid-2cols { grid-template-columns: 1fr; gap: 15px; }
         }
 
-        /* Header */
         .header {
             text-align: center;
             color: white;
@@ -109,14 +98,8 @@
         }
 
         @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .header h1 {
@@ -131,7 +114,6 @@
             animation: pulse 2s ease infinite;
         }
 
-        /* Pausa a animação do ícone quando modal aberta */
         body.modal-open .header h1 i {
             animation-play-state: paused !important;
         }
@@ -146,7 +128,6 @@
             opacity: 0.9;
         }
 
-        /* Cards e Seções */
         .pacotes-section, .info-pagamento, .form-section, .historico-section {
             background: white;
             border-radius: 20px;
@@ -163,17 +144,10 @@
         .historico-section { animation-delay: 0.4s; }
 
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Remove hover effects quando modal aberta */
         body.modal-open .pacotes-section:hover,
         body.modal-open .info-pagamento:hover,
         body.modal-open .form-section:hover,
@@ -198,11 +172,8 @@
             padding-bottom: 10px;
         }
 
-        h2 i {
-            color: #1e3c72;
-        }
+        h2 i { color: #1e3c72; }
 
-        /* Estatísticas */
         .stats-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -222,18 +193,9 @@
             animation-delay: 0.05s;
         }
 
-        body.modal-open .stat-card:hover {
-            transform: none;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-        }
-
-        .stat-card:active {
-            transform: translateY(0) scale(0.98);
-        }
+        body.modal-open .stat-card:hover { transform: none; }
+        .stat-card:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+        .stat-card:active { transform: translateY(0) scale(0.98); }
 
         .stat-card i {
             font-size: 35px;
@@ -243,28 +205,16 @@
             animation: iconFloat 3s ease infinite;
         }
 
-        body.modal-open .stat-card i {
-            animation-play-state: paused !important;
-        }
+        body.modal-open .stat-card i { animation-play-state: paused !important; }
 
         @keyframes iconFloat {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-5px); }
         }
 
-        .stat-value {
-            font-size: 28px;
-            font-weight: bold;
-            color: #333;
-        }
+        .stat-value { font-size: 28px; font-weight: bold; color: #333; }
+        .stat-label { font-size: 14px; color: #666; margin-top: 5px; }
 
-        .stat-label {
-            font-size: 14px;
-            color: #666;
-            margin-top: 5px;
-        }
-
-        /* Instruções de Pagamento */
         .instrucoes-pagamento-detalhadas {
             background: linear-gradient(135deg, #e3f2fd 0%, #bbdef5 100%);
             border-radius: 15px;
@@ -275,14 +225,8 @@
         }
 
         @keyframes slideInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
         .passo-pagamento {
@@ -296,15 +240,8 @@
             transition: all 0.3s ease;
         }
 
-        body.modal-open .passo-pagamento:hover {
-            transform: none;
-        }
-
-        .passo-pagamento:hover {
-            transform: translateX(10px);
-            background: white;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
+        body.modal-open .passo-pagamento:hover { transform: none; }
+        .passo-pagamento:hover { transform: translateX(10px); background: white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
 
         .passo-numero {
             width: 32px;
@@ -320,12 +257,8 @@
             transition: all 0.3s ease;
         }
 
-        .passo-pagamento:hover .passo-numero {
-            transform: scale(1.1);
-            background: #0a1a3a;
-        }
+        .passo-pagamento:hover .passo-numero { transform: scale(1.1); background: #0a1a3a; }
 
-        /* Métodos de Pagamento */
         .metodo-pagamento {
             background: white;
             border-radius: 12px;
@@ -336,14 +269,8 @@
             cursor: pointer;
         }
 
-        body.modal-open .metodo-pagamento:hover {
-            transform: none;
-        }
-
-        .metodo-pagamento:hover {
-            transform: translateX(5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
+        body.modal-open .metodo-pagamento:hover { transform: none; }
+        .metodo-pagamento:hover { transform: translateX(5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
 
         .dados-pagamento {
             background: #f8f9fa;
@@ -353,12 +280,8 @@
             transition: all 0.3s ease;
         }
 
-        .dados-pagamento:hover {
-            background: #e3f2fd;
-            border-color: #1e3c72;
-        }
+        .dados-pagamento:hover { background: #e3f2fd; border-color: #1e3c72; }
 
-        /* Botões de discagem rápida */
         .quick-dial-buttons {
             display: flex;
             gap: 8px;
@@ -384,32 +307,12 @@
             min-width: 120px;
         }
 
-        .quick-dial-btn.pagafacil {
-            background: linear-gradient(135deg, #dc3545, #e83e8c);
-        }
+        .quick-dial-btn.pagafacil { background: linear-gradient(135deg, #dc3545, #e83e8c); }
+        .quick-dial-btn.emola { background: linear-gradient(135deg, #007bff, #6610f2); }
+        .quick-dial-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .quick-dial-btn:active { transform: translateY(0); }
 
-        .quick-dial-btn.emola {
-            background: linear-gradient(135deg, #007bff, #6610f2);
-        }
-
-        .quick-dial-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .quick-dial-btn:active {
-            transform: translateY(0);
-        }
-
-        .quick-dial-btn i {
-            font-size: 14px;
-        }
-
-        /* Pacotes */
-        .pacotes-categoria {
-            margin-bottom: 25px;
-        }
-
+        .pacotes-categoria { margin-bottom: 25px; }
         .pacotes-categoria h3 {
             color: #1e3c72;
             font-size: 1.2em;
@@ -446,29 +349,13 @@
         .pacote-item:nth-child(9) { animation-delay: 0.45s; }
 
         @keyframes fadeInScale {
-            from {
-                opacity: 0;
-                transform: scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
         }
 
-        body.modal-open .pacote-item:hover {
-            transform: none;
-        }
-
-        .pacote-item:hover {
-            background: #e3f2fd;
-            border-color: #1e3c72;
-            transform: translateX(8px);
-        }
-
-        .pacote-item:active {
-            transform: translateX(4px) scale(0.98);
-        }
+        body.modal-open .pacote-item:hover { transform: none; }
+        .pacote-item:hover { background: #e3f2fd; border-color: #1e3c72; transform: translateX(8px); }
+        .pacote-item:active { transform: translateX(4px) scale(0.98); }
 
         .pacote-item.selected {
             background: linear-gradient(135deg, #1e3c72, #0a1a3a);
@@ -482,17 +369,9 @@
             100% { transform: scale(1); }
         }
 
-        .pacote-item.selected .pacote-preco {
-            color: #ffd700;
-        }
+        .pacote-item.selected .pacote-preco { color: #ffd700; }
+        .pacote-preco { font-weight: bold; color: #28a745; font-size: 1.1em; }
 
-        .pacote-preco {
-            font-weight: bold;
-            color: #28a745;
-            font-size: 1.1em;
-        }
-
-        /* Botões */
         .btn, .btn-copiar {
             background: linear-gradient(135deg, #1e3c72, #0a1a3a);
             color: white;
@@ -525,21 +404,10 @@
             transition: width 0.6s, height 0.6s;
         }
 
-        .btn:active::before, .btn-copiar:active::before {
-            width: 300px;
-            height: 300px;
-        }
+        .btn:active::before, .btn-copiar:active::before { width: 300px; height: 300px; }
+        .btn:hover, .btn-copiar:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(30, 60, 114, 0.3); }
+        .btn:active, .btn-copiar:active { transform: translateY(0); }
 
-        .btn:hover, .btn-copiar:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(30, 60, 114, 0.3);
-        }
-
-        .btn:active, .btn-copiar:active {
-            transform: translateY(0);
-        }
-
-        /* Botão de escolha de envio */
         .choice-buttons {
             display: flex;
             gap: 15px;
@@ -560,36 +428,13 @@
             gap: 10px;
             font-size: 16px;
         }
-        .choice-btn.whatsapp {
-            background: #25D366;
-            color: white;
-        }
-        .choice-btn.sms {
-            background: #2196F3;
-            color: white;
-        }
-        .choice-btn:hover {
-            transform: translateY(-3px);
-            filter: brightness(1.05);
-        }
+        .choice-btn.whatsapp { background: #25D366; color: white; }
+        .choice-btn.sms { background: #2196F3; color: white; }
+        .choice-btn:hover { transform: translateY(-3px); filter: brightness(1.05); }
 
-        /* Formulário */
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #333;
-        }
-
-        .form-group label i {
-            margin-right: 8px;
-            color: #1e3c72;
-        }
-
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; }
+        .form-group label i { margin-right: 8px; color: #1e3c72; }
         .form-group input, .form-group select, .form-group textarea {
             width: 100%;
             padding: 12px 15px;
@@ -599,7 +444,6 @@
             background: #f8f9fa;
             transition: all 0.3s ease;
         }
-
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
             outline: none;
             border-color: #1e3c72;
@@ -607,56 +451,20 @@
             transform: translateY(-2px);
         }
 
-        /* Tabela de Histórico */
         .tabela-historico {
             width: 100%;
             border-collapse: collapse;
             font-size: 0.9em;
         }
+        .tabela-historico th { background: #1e3c72; color: white; padding: 12px 8px; font-weight: 600; }
+        .tabela-historico td { padding: 12px 8px; border-bottom: 1px solid #e0e0e0; transition: all 0.3s ease; }
+        .tabela-historico tr:hover td { background: #f5f5f5; transform: scale(1.01); }
+        body.modal-open .tabela-historico tr:hover td { transform: none; }
+        .status-pendente { color: #ff9800; font-weight: bold; animation: statusBlink 2s ease infinite; }
+        body.modal-open .status-pendente { animation-play-state: paused !important; }
+        @keyframes statusBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+        .status-pago { color: #28a745; font-weight: bold; }
 
-        .tabela-historico th {
-            background: #1e3c72;
-            color: white;
-            padding: 12px 8px;
-            font-weight: 600;
-        }
-
-        .tabela-historico td {
-            padding: 12px 8px;
-            border-bottom: 1px solid #e0e0e0;
-            transition: all 0.3s ease;
-        }
-
-        .tabela-historico tr:hover td {
-            background: #f5f5f5;
-            transform: scale(1.01);
-        }
-
-        body.modal-open .tabela-historico tr:hover td {
-            transform: none;
-        }
-
-        .status-pendente {
-            color: #ff9800;
-            font-weight: bold;
-            animation: statusBlink 2s ease infinite;
-        }
-
-        body.modal-open .status-pendente {
-            animation-play-state: paused !important;
-        }
-
-        @keyframes statusBlink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
-        .status-pago {
-            color: #28a745;
-            font-weight: bold;
-        }
-
-        /* Botões de Ação na Tabela */
         .btn-confirmar, .btn-copiar-msg, .btn-deletar {
             border: none;
             padding: 8px 12px;
@@ -669,25 +477,16 @@
             gap: 5px;
             transition: all 0.2s ease;
         }
-
         .btn-confirmar { background: #28a745; color: white; }
         .btn-copiar-msg { background: #1e3c72; color: white; }
         .btn-deletar { background: #dc3545; color: white; }
+        .btn-confirmar:hover, .btn-copiar-msg:hover, .btn-deletar:hover { transform: translateY(-2px) scale(1.05); }
+        .btn-confirmar:active, .btn-copiar-msg:active, .btn-deletar:active { transform: translateY(0) scale(0.95); }
 
-        .btn-confirmar:hover, .btn-copiar-msg:hover, .btn-deletar:hover {
-            transform: translateY(-2px) scale(1.05);
-        }
-
-        .btn-confirmar:active, .btn-copiar-msg:active, .btn-deletar:active {
-            transform: translateY(0) scale(0.95);
-        }
-
-        /* Search Box */
         .search-box {
             position: relative;
             margin-bottom: 20px;
         }
-
         .search-box i {
             position: absolute;
             left: 15px;
@@ -696,7 +495,6 @@
             color: #999;
             transition: all 0.3s ease;
         }
-
         .search-box input {
             width: 100%;
             padding: 12px 15px 12px 45px;
@@ -704,19 +502,14 @@
             border-radius: 12px;
             transition: all 0.3s ease;
         }
-
         .search-box input:focus {
             border-color: #1e3c72;
             box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.1);
             padding-left: 50px;
         }
+        .search-box input:focus + i { left: 18px; color: #1e3c72; }
 
-        .search-box input:focus + i {
-            left: 18px;
-            color: #1e3c72;
-        }
-
-        /* ========== NOVO BOTÃO DO ASSISTENTE VIRTUAL MELHORADO ========== */
+        /* ========== BOTÃO DO ASSISTENTE VIRTUAL ========== */
         .contact-float {
             position: fixed;
             bottom: 30px;
@@ -736,43 +529,18 @@
             border: 3px solid rgba(255, 255, 255, 0.3);
         }
 
-        body.modal-open .contact-float {
-            animation-play-state: paused !important;
-        }
+        body.modal-open .contact-float { animation-play-state: paused !important; }
 
         @keyframes floatContact {
-            0%, 100% { 
-                transform: translateY(0) scale(1);
-                box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
-            }
-            50% { 
-                transform: translateY(-12px) scale(1.02);
-                box-shadow: 0 20px 40px rgba(102, 126, 234, 0.6);
-            }
+            0%, 100% { transform: translateY(0) scale(1); box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4); }
+            50% { transform: translateY(-12px) scale(1.02); box-shadow: 0 20px 40px rgba(102, 126, 234, 0.6); }
         }
 
-        .contact-float:hover {
-            transform: scale(1.12) translateY(-5px);
-            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5);
-            border-color: rgba(255, 255, 255, 0.6);
-        }
+        .contact-float:hover { transform: scale(1.12) translateY(-5px); box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5); border-color: rgba(255, 255, 255, 0.6); }
+        .contact-float:active { transform: scale(0.95); }
+        .contact-float i { font-size: 34px; color: white; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); transition: all 0.3s ease; }
+        .contact-float:hover i { transform: rotate(10deg) scale(1.05); }
 
-        .contact-float:active {
-            transform: scale(0.95);
-        }
-
-        .contact-float i {
-            font-size: 34px;
-            color: white;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-            transition: all 0.3s ease;
-        }
-
-        .contact-float:hover i {
-            transform: rotate(10deg) scale(1.05);
-        }
-
-        /* Bolinha de notificação no botão do chat */
         .chat-notification-badge {
             position: absolute;
             top: -5px;
@@ -796,7 +564,6 @@
             50% { transform: scale(1.1); background: #ff6b81; }
         }
 
-        /* Tooltip do botão */
         .contact-float::before {
             content: " Assistente Virtual";
             position: absolute;
@@ -815,25 +582,12 @@
             letter-spacing: 0.5px;
         }
 
-        .contact-float:hover::before {
-            opacity: 1;
-            visibility: visible;
-            right: 85px;
-        }
+        .contact-float:hover::before { opacity: 1; visibility: visible; right: 85px; }
 
         @media (max-width: 768px) {
-            .contact-float {
-                width: 55px;
-                height: 55px;
-                bottom: 20px;
-                right: 20px;
-            }
-            .contact-float i {
-                font-size: 28px;
-            }
-            .contact-float::before {
-                display: none;
-            }
+            .contact-float { width: 55px; height: 55px; bottom: 20px; right: 20px; }
+            .contact-float i { font-size: 28px; }
+            .contact-float::before { display: none; }
         }
 
         /* Chat Container */
@@ -854,14 +608,8 @@
         }
 
         @keyframes slideUpChat {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .chat-header {
@@ -872,30 +620,10 @@
             justify-content: space-between;
             align-items: center;
         }
-
-        .chat-header h4 {
-            margin: 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .chat-header h4 i {
-            font-size: 24px;
-        }
-
-        .close-chat {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 24px;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .close-chat:hover {
-            transform: rotate(90deg);
-        }
+        .chat-header h4 { margin: 0; display: flex; align-items: center; gap: 8px; }
+        .chat-header h4 i { font-size: 24px; }
+        .close-chat { background: none; border: none; color: white; font-size: 24px; cursor: pointer; transition: transform 0.2s; }
+        .close-chat:hover { transform: rotate(90deg); }
 
         .chat-messages {
             height: 350px;
@@ -917,6 +645,7 @@
             font-size: 14px;
             color: #333;
         }
+        .message-bot strong { color: #1e3c72; }
 
         .message-user {
             background: linear-gradient(135deg, #667eea, #764ba2);
@@ -929,7 +658,6 @@
             font-size: 14px;
         }
 
-        /* Indicador de digitação */
         .typing-indicator {
             background: linear-gradient(135deg, #e8eaf6, #c5cae9);
             padding: 12px 16px;
@@ -941,7 +669,6 @@
             align-items: center;
             gap: 6px;
         }
-
         .typing-indicator span {
             width: 8px;
             height: 8px;
@@ -950,24 +677,12 @@
             display: inline-block;
             animation: typingBounce 1.4s infinite ease-in-out both;
         }
-
-        .typing-indicator span:nth-child(1) {
-            animation-delay: -0.32s;
-        }
-
-        .typing-indicator span:nth-child(2) {
-            animation-delay: -0.16s;
-        }
+        .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
 
         @keyframes typingBounce {
-            0%, 80%, 100% { 
-                transform: scale(0.6);
-                opacity: 0.5;
-            }
-            40% { 
-                transform: scale(1);
-                opacity: 1;
-            }
+            0%, 80%, 100% { transform: scale(0.6); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
         }
 
         .chat-input-area {
@@ -977,7 +692,6 @@
             border-top: 1px solid #e0e0e0;
             gap: 8px;
         }
-
         .chat-input-area input {
             flex: 1;
             padding: 10px;
@@ -985,7 +699,6 @@
             border-radius: 25px;
             outline: none;
         }
-
         .chat-input-area button {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
@@ -995,17 +708,8 @@
             cursor: pointer;
             transition: all 0.2s;
         }
-
-        .chat-input-area button:hover {
-            transform: scale(1.02);
-            opacity: 0.9;
-        }
-
-        .chat-input-area button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
+        .chat-input-area button:hover { transform: scale(1.02); opacity: 0.9; }
+        .chat-input-area button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
         .contact-options-chat {
             display: flex;
@@ -1014,7 +718,6 @@
             justify-content: center;
             flex-wrap: wrap;
         }
-
         .contact-chip {
             background: #e0e0e0;
             padding: 6px 12px;
@@ -1026,14 +729,8 @@
             align-items: center;
             gap: 6px;
         }
+        .contact-chip:hover { background: #667eea; color: white; transform: translateY(-2px); }
 
-        .contact-chip:hover {
-            background: #667eea;
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -1047,18 +744,10 @@
             overflow-y: auto;
             animation: modalFadeIn 0.3s ease;
         }
-
         @keyframes modalFadeIn {
-            from {
-                opacity: 0;
-                backdrop-filter: blur(0);
-            }
-            to {
-                opacity: 1;
-                backdrop-filter: blur(5px);
-            }
+            from { opacity: 0; backdrop-filter: blur(0); }
+            to { opacity: 1; backdrop-filter: blur(5px); }
         }
-
         .modal-content {
             background: white;
             width: 90%;
@@ -1069,18 +758,10 @@
             position: relative;
             animation: modalSlideIn 0.4s ease;
         }
-
         @keyframes modalSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-100px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-100px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
         .close {
             position: absolute;
             right: 20px;
@@ -1091,13 +772,8 @@
             color: #999;
             transition: all 0.3s ease;
         }
+        .close:hover { color: #1e3c72; transform: rotate(90deg); }
 
-        .close:hover {
-            color: #1e3c72;
-            transform: rotate(90deg);
-        }
-
-        /* Notificação */
         .notification {
             position: fixed;
             top: 20px;
@@ -1117,22 +793,13 @@
             max-width: 90%;
             animation: notificationSlide 0.4s ease;
         }
-
         @keyframes notificationSlide {
-            from {
-                opacity: 0;
-                transform: translateX(-50%) translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(-50%) translateY(0);
-            }
+            from { opacity: 0; transform: translateX(-50%) translateY(-30px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
         }
-
         .notification.success { border-left-color: #28a745; }
         .notification.error { border-left-color: #dc3545; }
 
-        /* Loading Overlay */
         .click-loading-overlay {
             display: none;
             position: fixed;
@@ -1148,7 +815,6 @@
             flex-direction: column;
             cursor: wait;
         }
-
         .click-loading-container {
             text-align: center;
             background: white;
@@ -1158,31 +824,21 @@
             min-width: 300px;
             animation: loadingPop 0.4s ease;
         }
-
         @keyframes loadingPop {
-            from {
-                opacity: 0;
-                transform: scale(0.8);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
         }
-
         .click-loading-spinner {
             width: 80px;
             height: 80px;
             margin: 0 auto 20px;
             position: relative;
         }
-
         .click-loading-spinner .spinner-ring {
             position: absolute;
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
-
         .click-loading-spinner .spinner-ring:nth-child(1) {
             width: 100%;
             height: 100%;
@@ -1190,7 +846,6 @@
             border-top: 3px solid #1e3c72;
             border-right: 3px solid #4a90e2;
         }
-
         .click-loading-spinner .spinner-ring:nth-child(2) {
             width: 60px;
             height: 60px;
@@ -1201,18 +856,15 @@
             border-left: 2px solid #4a90e2;
             animation: spinReverse 0.7s linear infinite;
         }
-
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-
         @keyframes spinReverse {
             0% { transform: rotate(360deg); }
             100% { transform: rotate(0deg); }
         }
 
-        /* Loading de Entrada */
         .entry-loading {
             position: fixed;
             top: 0;
@@ -1227,19 +879,13 @@
             flex-direction: column;
             transition: opacity 0.5s ease, visibility 0.5s ease;
         }
-
-        .entry-loading.fade-out {
-            opacity: 0;
-            visibility: hidden;
-        }
-
+        .entry-loading.fade-out { opacity: 0; visibility: hidden; }
         .entry-spinner {
             width: 100px;
             height: 100px;
             position: relative;
             margin-bottom: 30px;
         }
-
         .entry-spinner::before,
         .entry-spinner::after {
             content: '';
@@ -1247,7 +893,6 @@
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
-
         .entry-spinner::before {
             width: 100%;
             height: 100%;
@@ -1255,7 +900,6 @@
             border-top: 3px solid #1e3c72;
             border-right: 3px solid #4a90e2;
         }
-
         .entry-spinner::after {
             width: 70px;
             height: 70px;
@@ -1266,7 +910,6 @@
             border-left: 2px solid #4a90e2;
             animation: spinReverse 0.7s linear infinite;
         }
-
         .store-name {
             font-size: 2.2em;
             font-weight: 800;
@@ -1274,12 +917,10 @@
             letter-spacing: 2px;
             animation: textGlow 2s ease infinite;
         }
-
         @keyframes textGlow {
             0%, 100% { text-shadow: 0 0 0px rgba(30,60,114,0); }
             50% { text-shadow: 0 0 10px rgba(30,60,114,0.3); }
         }
-
         @media (max-width: 768px) {
             .header h1 { font-size: 1.8em; }
             h2 { font-size: 1.3em; }
@@ -1326,34 +967,27 @@
                         <div class="passo-pagamento"><div class="passo-numero">1</div><div class="passo-conteudo"><strong>Escolha o método de pagamento</strong><p>Selecione eMola ou Vodacom Paga Fácil</p></div></div>
                         <div class="passo-pagamento"><div class="passo-numero">2</div><div class="passo-conteudo"><strong>Envie o valor exato do pacote</strong><p>Transfira o valor correspondente ao pacote escolhido</p></div></div>
                         <div class="passo-pagamento"><div class="passo-numero">3</div><div class="passo-conteudo"><strong>Confirme os dados do destinatário</strong><p>Verifique se o nome e número estão corretos</p></div></div>
-                        <div class="passo-pagamento"><div class="passo-numero">4</div><div class="passo-conteudo"><strong>Guarde o comprovante</strong><p>Anote o ID da transação ou tire print</p></div></div>
-                        <div class="passo-pagamento"><div class="passo-numero">5</div><div class="passo-conteudo"><strong>Registre no sistema</strong><p>Preencha o formulário com seus dados e ID da transação</p></div></div>
+                        <div class="passo-pagamento"><div class="passo-numero">4</div><div class="passo-conteudo"><strong>Registre no sistema</strong><p>Preencha o formulário com seus dados</p></div></div>
                     </div>
                     
-                    <!-- eMola -->
                     <div class="metodo-pagamento">
                         <h5><i class="fas fa-mobile-alt"></i> eMola</h5>
                         <div class="dados-pagamento">
                             <p><i class="fas fa-phone"></i> <strong>Número:</strong> 867047493</p>
                             <p><i class="fas fa-user"></i> <strong>Nome:</strong> Aster Eusébio Serrote</p>
                             <div class="quick-dial-buttons">
-                                <button class="quick-dial-btn emola" id="discarEmolaBtn">
-                                    <i class="fas fa-phone-alt"></i> Fazer o pagamento 
-                                </button>
+                                <button class="quick-dial-btn emola" id="discarEmolaBtn"><i class="fas fa-phone-alt"></i> Fazer pagamento</button>
                             </div>
                         </div>
                     </div>
                     
-                    <!-- Vodacom Paga Fácil -->
                     <div class="metodo-pagamento">
                         <h5><i class="fas fa-building"></i> VODACOM PAGA FÁCIL</h5>
                         <div class="dados-pagamento">
                             <p><i class="fas fa-barcode"></i> <strong>Código:</strong> 1232359</p>
                             <p><i class="fas fa-store"></i> <strong>Nome:</strong> EUGENIO-Venda Online</p>
                             <div class="quick-dial-buttons">
-                                <button class="quick-dial-btn pagafacil" id="discarPagaFacilBtn">
-                                    <i class="fas fa-phone-alt"></i> Fazer o pagamento 
-                                </button>
+                                <button class="quick-dial-btn pagafacil" id="discarPagaFacilBtn"><i class="fas fa-phone-alt"></i> Fazer pagamento</button>
                             </div>
                         </div>
                     </div>
@@ -1367,7 +1001,6 @@
                         <div class="form-group"><label><i class="fas fa-user"></i> Nome do Cliente</label><input type="text" id="nomeCliente" placeholder="Digite o nome completo"><div class="error-message" id="errorNome" style="display:none; color:#dc3545; font-size:12px;">Insira o nome corretamente</div></div>
                         <div class="form-group"><label><i class="fas fa-phone"></i> Número que pretende receber MB</label><input type="tel" id="celular" placeholder="84 ou 85"><div class="error-message" id="errorCelular" style="display:none; color:#dc3545; font-size:12px;">Verificar se o número está correto</div></div>
                         <div class="form-group"><label><i class="fas fa-box"></i> Pacote</label><select id="pacote"><option value="">Selecione um pacote</option></select><div class="error-message" id="errorPacote" style="display:none; color:#dc3545; font-size:12px;">Selecione um pacote</div></div>
-                        <div class="form-group"><label><i class="fas fa-hashtag"></i> ID da Transação</label><input type="text" id="transacaoID" placeholder="Digite o ID da transação"><div class="error-message" id="errorTransacao" style="display:none; color:#dc3545; font-size:12px;">Insira o ID da transação</div></div>
                         <div class="form-group"><label><i class="fas fa-money-bill"></i> Método de Pagamento</label><select id="metodoPagamento"><option value="eMola">eMola (867047493 - Aster Eusébio Serrote)</option><option value="Vodacom Paga Fácil">Paga Fácil (1232359 - EUGENIO-Venda Online)</option></select></div>
                         <div class="form-group"><label><i class="fas fa-comment"></i> Mensagem do pagamento</label><textarea id="observacoes" rows="2" placeholder="Cole a mensagem de confirmação aqui"></textarea></div>
                         <button type="submit" class="btn" id="btnEnviar"><i class="fab fa-whatsapp"></i> Finalizar o seu pagamento</button>
@@ -1389,12 +1022,12 @@
         <div class="historico-section">
             <h2><i class="fas fa-history"></i> HISTÓRICO DE PAGAMENTOS<button class="btn-copiar-msg" id="exportarHistoricoBtn" style="width: auto; margin-left: 10px; padding: 5px 12px;"><i class="fas fa-download"></i> Exportar</button></h2>
             <div class="search-box"><i class="fas fa-search"></i><input type="text" id="searchHistorico" placeholder="Pesquisar no histórico..."></div>
-            <div style="overflow-x: auto;"><table class="tabela-historico" id="tabelaHistorico"><thead><tr><th>Data</th><th>Cliente</th><th>Celular</th><th>Pacote</th><th>ID</th><th>Status</th><th>Ações</th></tr></thead><tbody id="historicoBody"></tbody></table></div>
+            <div style="overflow-x: auto;"><table class="tabela-historico" id="tabelaHistorico"><thead><tr><th>Data</th><th>Cliente</th><th>Celular</th><th>Pacote</th><th>Status</th><th>Ações</th></tr></thead><tbody id="historicoBody"></tbody></table></div>
             <div style="text-align: center; margin-top: 20px;"><button class="btn-copiar-msg" id="limparHistoricoBtn" style="background: #dc3545;"><i class="fas fa-trash"></i> LIMPAR HISTÓRICO</button></div>
         </div>
     </div>
 
-    <!-- ASSISTENTE VIRTUAL - BOTÃO MELHORADO COM LOGO -->
+    <!-- ASSISTENTE VIRTUAL ORGANIZADO -->
     <div class="contact-float" id="chatFloatBtn">
         <i class="fas fa-robot"></i>
         <div class="chat-notification-badge">!</div>
@@ -1402,11 +1035,11 @@
 
     <div class="chat-container" id="chatContainer">
         <div class="chat-header">
-            <h4><i class="fas fa-robot"></i>  Assistente virtual Agência Miller</h4>
+            <h4><i class="fas fa-robot"></i> Assistente Virtual | Agência Miller</h4>
             <button class="close-chat" id="closeChatBtn">&times;</button>
         </div>
         <div class="chat-messages" id="chatMessages">
-            <div class="message-bot"> Olá! Sou o assistente virtual da Agência Miller. Pergunte-me sobre pacotes, preços, pagamentos, prazos ou qualquer dúvida. Estou aqui para ajudar!</div>
+            <div class="message-bot">🤖 Olá! Sou o assistente virtual da <strong>Agência Miller</strong>.<br><br>📌 <strong>Posso ajudar com:</strong><br>• Lista de pacotes e preços<br>• Métodos de pagamento (eMola/Paga Fácil)<br>• Passo a passo para comprar<br>• Prazo de ativação<br>• Falar com atendente humano<br><br>💬 Digite sua pergunta abaixo!</div>
         </div>
         <div class="chat-input-area">
             <input type="text" id="chatInput" placeholder="Digite sua pergunta...">
@@ -1414,7 +1047,6 @@
         </div>
     </div>
 
-    <!-- MODAL DE ESCOLHA DE ENVIO (WHATSAPP OU SMS) -->
     <div id="escolhaModal" class="modal">
         <div class="modal-content">
             <span class="close" data-modal="escolhaModal">&times;</span>
@@ -1430,17 +1062,20 @@
     <div id="confirmModal" class="modal"><div class="modal-content"><span class="close" data-modal="confirmModal">&times;</span><h3 style="color: #dc3545;"><i class="fas fa-exclamation-triangle"></i> Confirmar</h3><p id="confirmMessage" style="margin: 20px 0; text-align: center;"></p><div style="display: flex; gap: 10px;"><button class="btn" id="cancelConfirmBtn" style="background: #6c757d;">CANCELAR</button><button class="btn" id="confirmActionBtn" style="background: #dc3545;">CONFIRMAR</button></div></div></div>
 
     <script>
-        // ==================== CONFIGURAÇÕES EXISTENTES (NÃO ALTERADAS) ====================
+        // ==================== CONFIGURAÇÕES ====================
         const DADOS_PAGAMENTO = { mpesa: { numero: "867047493", nome: "Aster Eusébio Serrote" }, pagafacil: { codigo: "1232359", nome: "EUGENIO-Venda Online" } };
         const pacotes = { diarios: [{ nome: "247MB", preco: "7MT" }, { nome: "353MB", preco: "10MT" }, { nome: "529MB", preco: "15MT" }, { nome: "715MB", preco: "20MT" }, { nome: "1050MB", preco: "30MT" }, { nome: "1480MB", preco: "40MT" }, { nome: "1756MB", preco: "50MT" }, { nome: "2640MB", preco: "75MT" }, { nome: "3580MB", preco: "100MT" }], semanais: [{ nome: "857MB", preco: "30MT" }, { nome: "1785MB", preco: "50MT" }, { nome: "2967MB", preco: "85MT" }, { nome: "3468MB", preco: "100MT" }, { nome: "5300MB", preco: "150MT" }, { nome: "7150MB", preco: "200MT" }, { nome: "10750MB", preco: "300MT" }], mensais: [{ nome: "2879MB", preco: "100MT" }, { nome: "7050MB", preco: "200MT" }, { nome: "10569MB", preco: "300MT" }, { nome: "17980MB", preco: "500MT" }, { nome: "35878MB", preco: "1000MT" }, { nome: "71590MB", preco: "2000MT" }] };
-        let pagamentos = [], ultimaMensagem = '', acaoConfirmar = null, loadingActive = false, pagamentoTemp = null;
+        let pagamentos = [], ultimaMensagem = '', acaoConfirmar = null, loadingActive = false;
 
+        // Funções utilitárias
         function mostrarLoading(options) { return new Promise((resolve) => { if(loadingActive) { resolve(); return; } loadingActive=true; const overlay=document.getElementById('clickLoading'); const textEl=document.getElementById('loadingText'); const subtextEl=document.getElementById('loadingSubtext'); const timerSpan=document.getElementById('timerSeconds'); if(textEl) textEl.textContent=options.message||'Processando'; if(subtextEl) subtextEl.textContent=options.submessage||'Aguarde'; overlay.style.display='flex'; let segundos=3; if(timerSpan) timerSpan.textContent=segundos; const timer=setInterval(()=>{ segundos--; if(timerSpan) timerSpan.textContent=segundos>=0?segundos:0; if(segundos<=0) clearInterval(timer); },1000); setTimeout(()=>{ clearInterval(timer); overlay.style.display='none'; loadingActive=false; if(options.onComplete) options.onComplete(); if(options.successMessage) mostrarNotificacao(options.successMessage,'success'); resolve(); },3000); }); }
         function mostrarNotificacao(mensagem, tipo) { let notif=document.getElementById('notification'); if(!notif){ notif=document.createElement('div'); notif.id='notification'; notif.className='notification'; notif.innerHTML='<i class="fas fa-info-circle"></i><span id="notifMsg"></span>'; document.body.appendChild(notif); } notif.className='notification '+(tipo||'success'); document.getElementById('notifMsg').textContent=mensagem; notif.style.display='flex'; setTimeout(()=>{ notif.style.display='none'; },2500); }
         function copiarTexto(texto) { if(navigator.clipboard) navigator.clipboard.writeText(texto).then(()=>mostrarNotificacao('Copiado!')).catch(()=>fallbackCopy(texto)); else fallbackCopy(texto); }
         function fallbackCopy(texto) { const ta=document.createElement('textarea'); ta.value=texto; ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); mostrarNotificacao('Copiado!'); }
         function abrirModal(modalId) { const modal=document.getElementById(modalId); if(modal){ modal.style.display='block'; document.body.classList.add('modal-open'); document.body.classList.remove('modal-closing'); } }
         function fecharModal(modalId) { const modal=document.getElementById(modalId); if(modal){ modal.style.display='none'; document.body.classList.add('modal-closing'); document.body.classList.remove('modal-open'); setTimeout(()=>{ document.body.classList.remove('modal-closing'); const modalsAbertas=document.querySelectorAll('.modal[style*="display: block"]'); if(modalsAbertas.length===0) document.body.classList.remove('modal-open'); },500); } }
+        
+        // Funções de pagamento
         function carregarPagamentos() { try{ const saved=localStorage.getItem('pagamentos_agencia_miller'); pagamentos=saved?JSON.parse(saved):[]; }catch(e){ pagamentos=[]; } renderizarHistorico(); atualizarEstatisticas(); }
         function salvarPagamentos() { try{ localStorage.setItem('pagamentos_agencia_miller',JSON.stringify(pagamentos)); }catch(e){} atualizarEstatisticas(); }
         function atualizarEstatisticas() { document.getElementById('totalPendentes').textContent=pagamentos.filter(p=>p.status==='Pendente').length; document.getElementById('totalPagos').textContent=pagamentos.filter(p=>p.status==='Pago').length; }
@@ -1449,167 +1084,42 @@
         function selecionarPacote(el){ document.querySelectorAll('.pacote-item').forEach(item=>item.classList.remove('selected')); el.classList.add('selected'); const nome=el.getAttribute('data-nome'), preco=el.getAttribute('data-preco'), select=document.getElementById('pacote'), valor=`${nome} - ${preco}`; let opt=Array.from(select.options).find(o=>o.value===valor); if(!opt){ opt=document.createElement('option'); opt.value=valor; opt.text=valor; select.appendChild(opt); } select.value=valor; }
         function preencherSelectPacotes(){ const select=document.getElementById('pacote'); select.innerHTML='<option value="">Selecione</option>'; [...pacotes.diarios,...pacotes.semanais,...pacotes.mensais].forEach(p=>{ const opt=document.createElement('option'); opt.value=`${p.nome} - ${p.preco}`; opt.text=`${p.nome} - ${p.preco}`; select.appendChild(opt); }); }
         function filtrarPacotes(){ const termo=document.getElementById('searchPacotes').value.toLowerCase(); document.querySelectorAll('.pacote-item').forEach(item=>{ item.style.display=item.textContent.toLowerCase().includes(termo)?'flex':'none'; }); }
-        function validarFormulario(){ let ok=true; const nome=document.getElementById('nomeCliente').value.trim(), celular=document.getElementById('celular').value.trim(), pacote=document.getElementById('pacote').value, transacao=document.getElementById('transacaoID').value.trim(); document.querySelectorAll('.error-message').forEach(e=>e.style.display='none'); if(!nome){ document.getElementById('errorNome').style.display='block'; ok=false; } if(!celular){ document.getElementById('errorCelular').style.display='block'; ok=false; } else if(!/^[0-9]{9,12}$/.test(celular)){ document.getElementById('errorCelular').innerHTML='<i class="fas fa-exclamation-circle"></i> Celular inválido'; document.getElementById('errorCelular').style.display='block'; ok=false; } if(!pacote){ document.getElementById('errorPacote').style.display='block'; ok=false; } if(!transacao){ document.getElementById('errorTransacao').style.display='block'; ok=false; } return ok; }
-        function gerarMensagem(d){ const dadosPag=d.metodo.includes('eMola')?`eMola: ${DADOS_PAGAMENTO.mpesa.numero} - ${DADOS_PAGAMENTO.mpesa.nome}`:`Paga Fácil: ${DADOS_PAGAMENTO.pagafacil.codigo} - ${DADOS_PAGAMENTO.pagafacil.nome}`; return `NOVO PAGAMENTO - AGÊNCIA MILLER\n\nCliente: ${d.nome}\nCelular: ${d.celular}\nPacote: ${d.pacote}\nID Transação: ${d.transacaoID}\nMétodo: ${d.metodo}\nConta: ${dadosPag}\nMensagem: ${d.observacoes}\nData: ${d.data}\nStatus: ${d.status}`; }
+        function validarFormulario(){ let ok=true; const nome=document.getElementById('nomeCliente').value.trim(), celular=document.getElementById('celular').value.trim(), pacote=document.getElementById('pacote').value; document.querySelectorAll('.error-message').forEach(e=>e.style.display='none'); if(!nome){ document.getElementById('errorNome').style.display='block'; ok=false; } if(!celular){ document.getElementById('errorCelular').style.display='block'; ok=false; } else if(!/^[0-9]{9,12}$/.test(celular)){ document.getElementById('errorCelular').innerHTML='<i class="fas fa-exclamation-circle"></i> Celular inválido'; document.getElementById('errorCelular').style.display='block'; ok=false; } if(!pacote){ document.getElementById('errorPacote').style.display='block'; ok=false; } return ok; }
+        function gerarMensagem(d){ const dadosPag=d.metodo.includes('eMola')?`eMola: ${DADOS_PAGAMENTO.mpesa.numero} - ${DADOS_PAGAMENTO.mpesa.nome}`:`Paga Fácil: ${DADOS_PAGAMENTO.pagafacil.codigo} - ${DADOS_PAGAMENTO.pagafacil.nome}`; return `NOVO PAGAMENTO - AGÊNCIA MILLER\n\nCliente: ${d.nome}\nCelular: ${d.celular}\nPacote: ${d.pacote}\nMétodo: ${d.metodo}\nConta: ${dadosPag}\nMensagem: ${d.observacoes}\nData: ${d.data}\nStatus: ${d.status}`; }
         
         function processarFormulario(){ 
-            if(!validarFormulario()){ 
-                mostrarNotificacao('Preencha todos os campos','error'); 
-                return; 
-            } 
-            const pagamento = { 
-                id:Date.now(), 
-                data:new Date().toLocaleString('pt-BR'), 
-                nome:document.getElementById('nomeCliente').value.trim(), 
-                celular:document.getElementById('celular').value.trim(), 
-                pacote:document.getElementById('pacote').value, 
-                transacaoID:document.getElementById('transacaoID').value.trim(), 
-                metodo:document.getElementById('metodoPagamento').value, 
-                observacoes:document.getElementById('observacoes').value.trim()||'Nenhuma', 
-                status:'Pendente' 
-            }; 
-            pagamentos.push(pagamento); 
-            salvarPagamentos(); 
-            ultimaMensagem = gerarMensagem(pagamento); 
-            
-            // Mostrar modal de escolha
-            document.getElementById('mensagemPrevia').textContent = ultimaMensagem;
-            abrirModal('escolhaModal');
-            
-            // Guardar o pagamento temp para referência
-            pagamentoTemp = pagamento;
-            
-            document.getElementById('paymentForm').reset(); 
-            document.querySelectorAll('.pacote-item.selected').forEach(i=>i.classList.remove('selected')); 
-            renderizarHistorico(); 
+            if(!validarFormulario()){ mostrarNotificacao('Preencha todos os campos','error'); return; } 
+            const pagamento = { id:Date.now(), data:new Date().toLocaleString('pt-BR'), nome:document.getElementById('nomeCliente').value.trim(), celular:document.getElementById('celular').value.trim(), pacote:document.getElementById('pacote').value, metodo:document.getElementById('metodoPagamento').value, observacoes:document.getElementById('observacoes').value.trim()||'Nenhuma', status:'Pendente' }; 
+            pagamentos.push(pagamento); salvarPagamentos(); ultimaMensagem = gerarMensagem(pagamento); 
+            document.getElementById('mensagemPrevia').textContent = ultimaMensagem; abrirModal('escolhaModal'); 
+            document.getElementById('paymentForm').reset(); document.querySelectorAll('.pacote-item.selected').forEach(i=>i.classList.remove('selected')); renderizarHistorico(); 
         }
         
-        // Funções de envio
-        function enviarWhatsApp() {
-            const numero = "258867047493"; // Número da agência
-            const texto = encodeURIComponent(ultimaMensagem);
-            window.open(`https://wa.me/${numero}?text=${texto}`, '_blank');
-            fecharModal('escolhaModal');
-            mostrarNotificacao('Redirecionando para WhatsApp...', 'success');
-        }
-        
-        function enviarSMS() {
-            const numero = "867047493"; // Número da agência (sem código do país para SMS local)
-            // Detecta se está em dispositivo móvel
-            if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-                window.location.href = `sms:${numero}?body=${encodeURIComponent(ultimaMensagem)}`;
-            } else {
-                // Fallback para desktop - copia a mensagem
-                copiarTexto(ultimaMensagem);
-                mostrarNotificacao('Mensagem copiada! Envie via SMS no seu celular.', 'success');
-            }
-            fecharModal('escolhaModal');
-        }
+        function enviarWhatsApp() { const numero = "258867047493"; const texto = encodeURIComponent(ultimaMensagem); window.open(`https://wa.me/${numero}?text=${texto}`, '_blank'); fecharModal('escolhaModal'); mostrarNotificacao('Redirecionando para WhatsApp...', 'success'); }
+        function enviarSMS() { const numero = "867047493"; if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) { window.location.href = `sms:${numero}?body=${encodeURIComponent(ultimaMensagem)}`; } else { copiarTexto(ultimaMensagem); mostrarNotificacao('Mensagem copiada! Envie via SMS no seu celular.', 'success'); } fecharModal('escolhaModal'); }
         
         function renderizarHistorico(){ 
-            const tbody=document.getElementById('historicoBody'); 
-            tbody.innerHTML=''; 
-            if(pagamentos.length===0){ 
-                tbody.innerHTML='<tr><td colspan="7" style="text-align:center; padding:20px;">Nenhum registro</td></tr>'; 
-                return; 
-            } 
-            pagamentos.sort((a,b)=>b.id-a.id).forEach(p=>{ 
-                const tr=document.createElement('tr'); 
-                tr.innerHTML=`<td>${p.data}</td><td>${p.nome}</td><td>${p.celular}</td><td>${p.pacote}</td><td>${p.transacaoID}</td><td class="status-${p.status.toLowerCase()}">${p.status}</td><td><button class="btn-confirmar" data-id="${p.id}"><i class="fas fa-check"></i></button><button class="btn-copiar-msg" data-id="${p.id}"><i class="fas fa-copy"></i></button><button class="btn-deletar" data-id="${p.id}"><i class="fas fa-trash"></i></button></td>`; 
-                tbody.appendChild(tr); 
-            }); 
-            document.querySelectorAll('.btn-confirmar').forEach(btn=>{ 
-                btn.onclick=(e)=>{ 
-                    e.stopPropagation(); 
-                    const id=parseInt(btn.dataset.id); 
-                    mostrarLoading({ message:'Atualizando', successMessage:'Status alterado!', onComplete:()=>{ 
-                        const p=pagamentos.find(p=>p.id===id); 
-                        if(p) p.status=p.status==='Pendente'?'Pago':'Pendente'; 
-                        salvarPagamentos(); 
-                        renderizarHistorico(); 
-                    } }); 
-                }; 
-            }); 
-            document.querySelectorAll('.btn-copiar-msg').forEach(btn=>{ 
-                if(btn.id!=='exportarHistoricoBtn' && btn.id!=='limparHistoricoBtn'){ 
-                    btn.onclick=(e)=>{ 
-                        e.stopPropagation(); 
-                        const id=parseInt(btn.dataset.id); 
-                        const p=pagamentos.find(p=>p.id===id); 
-                        if(p) copiarTexto(gerarMensagem(p)); 
-                    }; 
-                } 
-            }); 
-            document.querySelectorAll('.btn-deletar').forEach(btn=>{ 
-                btn.onclick=(e)=>{ 
-                    e.stopPropagation(); 
-                    const id=parseInt(btn.dataset.id); 
-                    document.getElementById('confirmMessage').textContent='Deletar este pagamento?'; 
-                    abrirModal('confirmModal'); 
-                    acaoConfirmar=()=>{ 
-                        mostrarLoading({ message:'Deletando', successMessage:'Removido!', onComplete:()=>{ 
-                            pagamentos=pagamentos.filter(p=>p.id!==id); 
-                            salvarPagamentos(); 
-                            renderizarHistorico(); 
-                        } }); 
-                        fecharModal('confirmModal'); 
-                    }; 
-                }; 
-            }); 
+            const tbody=document.getElementById('historicoBody'); tbody.innerHTML=''; if(pagamentos.length===0){ tbody.innerHTML='<tr><td colspan="6" style="text-align:center; padding:20px;">Nenhum registro</td></tr>'; return; } 
+            pagamentos.sort((a,b)=>b.id-a.id).forEach(p=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td>${p.data}</td><td>${p.nome}</td><td>${p.celular}</td><td>${p.pacote}</td><td class="status-${p.status.toLowerCase()}">${p.status}</td><td><button class="btn-confirmar" data-id="${p.id}"><i class="fas fa-check"></i></button><button class="btn-copiar-msg" data-id="${p.id}"><i class="fas fa-copy"></i></button><button class="btn-deletar" data-id="${p.id}"><i class="fas fa-trash"></i></button></td>`; tbody.appendChild(tr); }); 
+            document.querySelectorAll('.btn-confirmar').forEach(btn=>{ btn.onclick=(e)=>{ e.stopPropagation(); const id=parseInt(btn.dataset.id); mostrarLoading({ message:'Atualizando', successMessage:'Status alterado!', onComplete:()=>{ const p=pagamentos.find(p=>p.id===id); if(p) p.status=p.status==='Pendente'?'Pago':'Pendente'; salvarPagamentos(); renderizarHistorico(); } }); }; }); 
+            document.querySelectorAll('.btn-copiar-msg').forEach(btn=>{ if(btn.id!=='exportarHistoricoBtn' && btn.id!=='limparHistoricoBtn'){ btn.onclick=(e)=>{ e.stopPropagation(); const id=parseInt(btn.dataset.id); const p=pagamentos.find(p=>p.id===id); if(p) copiarTexto(gerarMensagem(p)); }; } }); 
+            document.querySelectorAll('.btn-deletar').forEach(btn=>{ btn.onclick=(e)=>{ e.stopPropagation(); const id=parseInt(btn.dataset.id); document.getElementById('confirmMessage').textContent='Deletar este pagamento?'; abrirModal('confirmModal'); acaoConfirmar=()=>{ mostrarLoading({ message:'Deletando', successMessage:'Removido!', onComplete:()=>{ pagamentos=pagamentos.filter(p=>p.id!==id); salvarPagamentos(); renderizarHistorico(); } }); fecharModal('confirmModal'); }; }; }); 
         }
         
-        function limparHistorico(){ 
-            if(pagamentos.length===0){ 
-                mostrarNotificacao('Histórico vazio','error'); 
-                return; 
-            } 
-            document.getElementById('confirmMessage').textContent='Limpar TODO o histórico?'; 
-            abrirModal('confirmModal'); 
-            acaoConfirmar=()=>{ 
-                mostrarLoading({ message:'Limpando', successMessage:'Histórico limpo!', onComplete:()=>{ 
-                    pagamentos=[]; 
-                    salvarPagamentos(); 
-                    renderizarHistorico(); 
-                } }); 
-                fecharModal('confirmModal'); 
-            }; 
-        }
-        
-        function exportarHistorico(){ 
-            if(pagamentos.length===0){ 
-                mostrarNotificacao('Nada para exportar','error'); 
-                return; 
-            } 
-            let txt='HISTÓRICO AGÊNCIA MILLER\n\n'; 
-            pagamentos.forEach(p=>{ 
-                txt+=`${p.data} | ${p.nome} | ${p.celular} | ${p.pacote} | ${p.transacaoID} | ${p.status}\n`; 
-            }); 
-            copiarTexto(txt); 
-        }
-        
-        function filtrarHistorico(){ 
-            const termo=document.getElementById('searchHistorico').value.toLowerCase(); 
-            document.querySelectorAll('#historicoBody tr').forEach(tr=>{ 
-                tr.style.display=tr.textContent.toLowerCase().includes(termo)?'':'none'; 
-            }); 
-        }
-        
-        function copiarDadosPagamento(){ 
-            const dados=`eMola: ${DADOS_PAGAMENTO.mpesa.numero} - ${DADOS_PAGAMENTO.mpesa.nome}\nPaga Fácil: ${DADOS_PAGAMENTO.pagafacil.codigo} - ${DADOS_PAGAMENTO.pagafacil.nome}`; 
-            copiarTexto(dados); 
-        }
-
-        // ==================== FUNÇÕES DE DISCAGEM RÁPIDA ====================
+        function limparHistorico(){ if(pagamentos.length===0){ mostrarNotificacao('Histórico vazio','error'); return; } document.getElementById('confirmMessage').textContent='Limpar TODO o histórico?'; abrirModal('confirmModal'); acaoConfirmar=()=>{ mostrarLoading({ message:'Limpando', successMessage:'Histórico limpo!', onComplete:()=>{ pagamentos=[]; salvarPagamentos(); renderizarHistorico(); } }); fecharModal('confirmModal'); }; }
+        function exportarHistorico(){ if(pagamentos.length===0){ mostrarNotificacao('Nada para exportar','error'); return; } let txt='HISTÓRICO AGÊNCIA MILLER\n\n'; pagamentos.forEach(p=>{ txt+=`${p.data} | ${p.nome} | ${p.celular} | ${p.pacote} | ${p.status}\n`; }); copiarTexto(txt); }
+        function filtrarHistorico(){ const termo=document.getElementById('searchHistorico').value.toLowerCase(); document.querySelectorAll('#historicoBody tr').forEach(tr=>{ tr.style.display=tr.textContent.toLowerCase().includes(termo)?'':'none'; }); }
+        function copiarDadosPagamento(){ const dados=`eMola: ${DADOS_PAGAMENTO.mpesa.numero} - ${DADOS_PAGAMENTO.mpesa.nome}\nPaga Fácil: ${DADOS_PAGAMENTO.pagafacil.codigo} - ${DADOS_PAGAMENTO.pagafacil.nome}`; copiarTexto(dados); }
         function discarEmola() { window.location.href = 'tel:*898%23'; mostrarNotificacao('A discar *898# para eMola...', 'success'); }
         function discarPagaFacil() { window.location.href = 'tel:*150%23'; mostrarNotificacao('A discar *150# para Vodacom Paga Fácil...', 'success'); }
 
-        // ==================== ASSISTENTE VIRTUAL ====================
-        const chatContainer=document.getElementById('chatContainer');
-        const chatMessages=document.getElementById('chatMessages');
-        const chatInput=document.getElementById('chatInput');
+        // ==================== ASSISTENTE VIRTUAL REORGANIZADO ====================
+        const chatContainer = document.getElementById('chatContainer');
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
         const sendBtn = document.getElementById('sendChatBtn');
         let isTyping = false;
-        
+
         function createTypingIndicator() {
             const indicator = document.createElement('div');
             indicator.className = 'typing-indicator';
@@ -1617,7 +1127,7 @@
             indicator.innerHTML = '<span></span><span></span><span></span>';
             return indicator;
         }
-        
+
         function showTypingIndicator() {
             if (isTyping) return;
             isTyping = true;
@@ -1627,7 +1137,7 @@
             chatInput.disabled = true;
             sendBtn.disabled = true;
         }
-        
+
         function hideTypingIndicator() {
             const indicator = document.getElementById('typingIndicator');
             if (indicator) indicator.remove();
@@ -1636,7 +1146,7 @@
             sendBtn.disabled = false;
             chatInput.focus();
         }
-        
+
         function addMessage(text, isUser = false) {
             const div = document.createElement('div');
             div.className = isUser ? 'message-user' : 'message-bot';
@@ -1644,8 +1154,8 @@
             chatMessages.appendChild(div);
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
-        
-        async function typeMessage(fullText, speed = 25) {
+
+        async function typeMessage(fullText, speed = 20) {
             const div = document.createElement('div');
             div.className = 'message-bot';
             div.textContent = '';
@@ -1656,124 +1166,131 @@
                 await new Promise(resolve => setTimeout(resolve, speed));
             }
         }
-        
-        function resetChat(){
-            chatMessages.innerHTML = '';
-            addMessage(' Olá! Sou o assistente virtual da Agência Miller. Pergunte-me sobre pacotes, preços, pagamentos, prazos ou qualquer dúvida. Estou aqui para ajudar!');
-        }
-        
-        function showHumanContactOptions(){
+
+        function showHumanContactOptions() {
             const optionsDiv = document.createElement('div'); 
             optionsDiv.className = 'message-bot'; 
-            optionsDiv.innerHTML = `<strong> Precisa de atendimento humano?</strong><br>Escolha uma opção para falar conosco:<div class="contact-options-chat"><div class="contact-chip" data-contact-type="whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</div><div class="contact-chip" data-contact-type="sms"><i class="fas fa-sms"></i> SMS</div><div class="contact-chip" data-contact-type="call"><i class="fas fa-phone-alt"></i> Ligação</div></div>`;
+            optionsDiv.innerHTML = `<strong>📞 Falar com atendente humano:</strong><br>Escolha uma opção abaixo:<div class="contact-options-chat"><div class="contact-chip" data-contact-type="whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</div><div class="contact-chip" data-contact-type="sms"><i class="fas fa-sms"></i> SMS</div><div class="contact-chip" data-contact-type="call"><i class="fas fa-phone-alt"></i> Ligação</div></div>`;
             chatMessages.appendChild(optionsDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
-            document.querySelectorAll('.contact-chip').forEach(chip=>{
-                chip.addEventListener('click',(e)=>{
+            document.querySelectorAll('.contact-chip').forEach(chip => {
+                chip.addEventListener('click', (e) => {
                     const type = chip.dataset.contactType;
-                    if(type === 'whatsapp') window.open('https://wa.me/258867047493?text=Olá! Preciso de ajuda da Agência Miller','_blank');
+                    if(type === 'whatsapp') window.open('https://wa.me/258867047493?text=Olá! Preciso de ajuda da Agência Miller', '_blank');
                     else if(type === 'sms') window.location.href = 'sms:867047493?body=Olá! Preciso de ajuda da Agência Miller';
                     else if(type === 'call') window.location.href = 'tel:867047493';
-                    mostrarNotificacao('Redirecionando para atendimento...','success');
+                    mostrarNotificacao('Redirecionando para atendimento...', 'success');
                 });
             });
         }
-        
-        function botResponse(question){
+
+        function botResponse(question) {
             const q = question.toLowerCase().trim();
-            if(q.includes('pacote') || q.includes('internet') || q.includes('dados') || q.includes('mb') || q.includes('giga') || q.includes('gb')){
-                return ` **PACOTES DISPONÍVEIS:**\n\n DIÁRIOS: 247MB (7MT), 353MB (10MT), 529MB (15MT), 715MB (20MT), 1050MB (30MT), 1480MB (40MT), 1756MB (50MT), 2640MB (75MT), 3580MB (100MT)\n\n SEMANAIS: 857MB (30MT), 1785MB (50MT), 2967MB (85MT), 3468MB (100MT), 5300MB (150MT), 7150MB (200MT), 10750MB (300MT)\n\n MENSAIS: 2879MB (100MT), 7050MB (200MT), 10569MB (300MT), 17980MB (500MT), 35878MB (1000MT), 71590MB (2000MT)`;
+            
+            // Menu principal / Ajuda
+            if(q.includes('menu') || q.includes('ajuda') || q.includes('opções') || q.includes('opcoes') || q.includes('oque voce faz') || q.includes('o que você faz')) {
+                return `📋 **MENU DE AJUDA - Agência Miller**\n\n🔹 Digite "pacotes" para ver todos os pacotes e preços\n🔹 Digite "pagamento" para ver métodos de pagamento\n🔹 Digite "como comprar" para ver o passo a passo\n🔹 Digite "prazo" para saber o tempo de ativação\n🔹 Digite "contato" para falar com atendente humano\n🔹 Digite "sobre" para saber quem somos\n\n💬 Qual informação você precisa?`;
             }
-            if(q.includes('valor') || q.includes('preço') || q.includes('custa') || q.includes('quanto') || q.includes('preco')){
-                return ` **TABELA DE PREÇOS:**\n• Diários: 7MT a 100MT\n• Semanais: 30MT a 300MT\n• Mensais: 100MT a 2000MT\n\nOs preços variam conforme a quantidade de dados. Veja todos os pacotes na lista ao lado!`;
+            
+            // Pacotes
+            if(q.includes('pacote') || q.includes('internet') || q.includes('dados') || q.includes('mb') || q.includes('giga') || q.includes('gb') || q.includes('tabela')) {
+                return `📦 **PACOTES DISPONÍVEIS:**\n\n📅 **DIÁRIOS:**\n247MB (7MT) | 353MB (10MT) | 529MB (15MT) | 715MB (20MT) | 1050MB (30MT) | 1480MB (40MT) | 1756MB (50MT) | 2640MB (75MT) | 3580MB (100MT)\n\n📆 **SEMANAIS:**\n857MB (30MT) | 1785MB (50MT) | 2967MB (85MT) | 3468MB (100MT) | 5300MB (150MT) | 7150MB (200MT) | 10750MB (300MT)\n\n📅 **MENSAIS:**\n2879MB (100MT) | 7050MB (200MT) | 10569MB (300MT) | 17980MB (500MT) | 35878MB (1000MT) | 71590MB (2000MT)`;
             }
-            if(q.includes('pagamento') || q.includes('pagar') || q.includes('emola') || q.includes('pagafácil') || q.includes('paga fácil') || q.includes('transferência') || q.includes('transferir')){
-                return ` **MÉTODOS DE PAGAMENTO:**\n\n✅ eMola: Número 867047493 - Aster Eusébio Serrote\n✅ Vodacom Paga Fácil: Código 1232359 - EUGENIO-Venda Online\n\nUse os botões "Discar" para aceder diretamente aos menus USSD. Siga as instruções na seção "DADOS PARA PAGAMENTO".`;
+            
+            // Preços
+            if(q.includes('valor') || q.includes('preço') || q.includes('custa') || q.includes('quanto') || q.includes('preco')) {
+                return `💰 **TABELA DE PREÇOS:**\n\n• Pacotes Diários: 7MT a 100MT\n• Pacotes Semanais: 30MT a 300MT\n• Pacotes Mensais: 100MT a 2000MT\n\nOs preços variam conforme a quantidade de dados. Digite "pacotes" para ver a lista completa!`;
             }
-            if(q.includes('como comprar') || q.includes('comprar') || q.includes('adquirir') || q.includes('como adquirir') || q.includes('processo')){
-                return ` **PASSO A PASSO PARA COMPRAR:**\n\n1️⃣ Escolha um pacote na lista ao lado\n2️⃣ Faça o pagamento para eMola ou Paga Fácil (use os botões de discagem rápida)\n3️⃣ Preencha o formulário com seus dados e o ID da transação\n4️⃣ Aguarde a confirmação (status muda para "Pago")\n5️⃣ Seu pacote será ativado em até 24h úteis!`;
+            
+            // Pagamento
+            if(q.includes('pagamento') || q.includes('pagar') || q.includes('emola') || q.includes('pagafácil') || q.includes('paga fácil') || q.includes('transferência') || q.includes('transferir') || q.includes('como pago')) {
+                return `💳 **MÉTODOS DE PAGAMENTO:**\n\n✅ **eMola:** Número 867047493 - Aster Eusébio Serrote\n✅ **Vodacom Paga Fácil:** Código 1232359 - EUGENIO-Venda Online\n\n📲 Use os botões "Fazer pagamento" na seção DADOS PARA PAGAMENTO para aceder diretamente aos menus USSD.*898# para eMola ou *150# para Paga Fácil.\n\nApós o pagamento, registre seus dados no formulário ao lado!`;
             }
-            if(q.includes('prazo') || q.includes('demora') || q.includes('ativação') || q.includes('ativar') || q.includes('quanto tempo') || q.includes('quando')){
-                return `⏱️ **PRAZO DE ATIVAÇÃO:**\n\nApós o registro do pagamento, a ativação é feita em até 24 horas úteis. Você pode acompanhar o status no histórico de pagamentos. Quando aparecer "Pago", seu pacote já está ativo!`;
+            
+            // Como comprar
+            if(q.includes('como comprar') || q.includes('comprar') || q.includes('adquirir') || q.includes('como adquirir') || q.includes('processo') || q.includes('passo a passo')) {
+                return `🛒 **PASSO A PASSO PARA COMPRAR:**\n\n1️⃣ Escolha um pacote na lista ao lado (clique sobre ele)\n2️⃣ Faça o pagamento para eMola ou Paga Fácil (use os botões de discagem rápida)\n3️⃣ Preencha o formulário com seus dados (nome e celular)\n4️⃣ Aguarde a confirmação - o status muda para "Pago"\n5️⃣ Seu pacote será ativado em até 24h úteis!\n\n✅ Simples e rápido!`;
             }
-            if(q.includes('contato') || q.includes('falar') || q.includes('atendente') || q.includes('humano') || q.includes('suporte') || q.includes('ajuda humana') || q.includes('pessoa')){
+            
+            // Prazo
+            if(q.includes('prazo') || q.includes('demora') || q.includes('ativação') || q.includes('ativar') || q.includes('quanto tempo') || q.includes('quando') || q.includes('ativacao')) {
+                return `⏱️ **PRAZO DE ATIVAÇÃO:**\n\nApós o registro do pagamento no sistema, a ativação do seu pacote de internet é feita em até **24 horas úteis**.\n\n📊 Você pode acompanhar o status no **HISTÓRICO DE PAGAMENTOS**. Quando aparecer "Pago", seu pacote já está ativo e pronto para uso!\n\n📞 Se ultrapassar 24h, entre em contato conosco.`;
+            }
+            
+            // Contato humano
+            if(q.includes('contato') || q.includes('falar') || q.includes('atendente') || q.includes('humano') || q.includes('suporte') || q.includes('ajuda humana') || q.includes('pessoa') || q.includes('atendimento')) {
                 showHumanContactOptions();
                 return null;
             }
-            if(q.includes('quem é') || q.includes('agência') || q.includes('miller') || q.includes('sobre')){
-                return ` **Agência Miller** - Especialista em ofertas de internet com os melhores preços do mercado. Trabalhamos com pacotes de dados para operadora Vodacom, com pagamento facilitado via eMola e Paga Fácil. Qualidade e confiança!`;
+            
+            // Sobre a empresa
+            if(q.includes('quem é') || q.includes('agência') || q.includes('miller') || q.includes('sobre') || q.includes('empresa')) {
+                return `🏢 **Agência Miller**\n\nSomos especialistas em ofertas de internet com os melhores preços do mercado. Trabalhamos com pacotes de dados para operadora Vodacom, com pagamento facilitado via eMola e Paga Fácil.\n\n🎯 **Missão:** Oferecer internet de qualidade e acessível para todos.\n✅ **Confiança e qualidade** são nossos valores!`;
             }
-            if(q.includes('ajuda') || q.includes('duvida') || q.includes('dúvida') || q.includes('info') || q.includes('informação')){
-                return `❓ **Posso ajudar com:**\n• Lista de pacotes e preços\n• Métodos de pagamento (eMola/Paga Fácil)\n• Passo a passo para comprar\n• Prazo de ativação\n• Contato com suporte humano\n\nDigite sua dúvida específica!`;
+            
+            // Saudação
+            if(q.includes('olá') || q.includes('oi') || q.includes('bom dia') || q.includes('boa tarde') || q.includes('boa noite') || q.includes('ola') || q.includes('hello') || q.includes('hi')) {
+                return `👋 Olá! Bem-vindo à **Agência Miller**! Como posso ajudá-lo hoje?\n\nDigite "menu" para ver todas as opções disponíveis ou me faça uma pergunta específica sobre:\n• Pacotes e preços\n• Pagamentos\n• Prazos de ativação\n• Como comprar`;
             }
-            if(q.includes('olá') || q.includes('oi') || q.includes('bom dia') || q.includes('boa tarde') || q.includes('boa noite') || q.includes('ola')){
-                return `Olá!  Bem-vindo à Agência Miller! Como posso ajudá-lo hoje? Tenho informações sobre pacotes, preços, pagamentos e prazos.`;
-            }
-            showHumanContactOptions();
-            return null;
+            
+            // Resposta padrão com menu
+            return `❓ Desculpe, não entendi sua pergunta.\n\n📋 **Digite "menu"** para ver todas as opções de ajuda ou escolha uma das perguntas abaixo:\n\n• "pacotes" - Lista completa\n• "pagamento" - Como pagar\n• "como comprar" - Passo a passo\n• "prazo" - Tempo de ativação\n• "contato" - Falar com atendente\n\n💬 Como posso ajudar você hoje?`;
         }
-        
-        async function sendMessage(){
+
+        async function sendMessage() {
             const msg = chatInput.value.trim();
             if(!msg || isTyping) return;
             addMessage(msg, true);
             chatInput.value = '';
             showTypingIndicator();
-            const typingDelay = 1500 + Math.random() * 1000;
+            const typingDelay = 1000 + Math.random() * 800;
             setTimeout(async () => {
                 hideTypingIndicator();
                 const response = botResponse(msg);
                 if(response) {
-                    if (response.length < 150) {
-                        await typeMessage(response, 25);
+                    if (response.length < 200) {
+                        await typeMessage(response, 20);
                     } else {
                         addMessage(response);
                     }
                 }
             }, typingDelay);
         }
-        
+
         // Eventos do Chat
-        document.getElementById('chatFloatBtn').addEventListener('click', ()=>{ 
+        document.getElementById('chatFloatBtn').addEventListener('click', () => { 
             chatContainer.style.display = 'flex';
             const badge = document.querySelector('.chat-notification-badge');
             if(badge) badge.style.display = 'none';
         });
-        document.getElementById('closeChatBtn').addEventListener('click', ()=>{ 
+        document.getElementById('closeChatBtn').addEventListener('click', () => { 
             chatContainer.style.display = 'none';
-            resetChat();
         });
         sendBtn.addEventListener('click', sendMessage);
         chatInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') sendMessage(); });
         
         // INICIALIZAÇÃO
-        document.addEventListener('DOMContentLoaded',()=>{
+        document.addEventListener('DOMContentLoaded', () => {
             carregarPagamentos();
             renderizarPacotes();
             preencherSelectPacotes();
             
-            // Botões existentes
-            document.getElementById('copiarDadosBtn').onclick=()=>mostrarLoading({ message:'Copiando', successMessage:'Dados copiados!', onComplete:copiarDadosPagamento });
-            document.getElementById('btnEnviar').onclick=(e)=>{ e.preventDefault(); mostrarLoading({ message:'Registrando', successMessage:'Registrado!', onComplete:processarFormulario }); };
-            document.getElementById('exportarHistoricoBtn').onclick=()=>mostrarLoading({ message:'Exportando', successMessage:'Exportado!', onComplete:exportarHistorico });
-            document.getElementById('limparHistoricoBtn').onclick=()=>limparHistorico();
-            
-            // Botões da modal de escolha
+            document.getElementById('copiarDadosBtn').onclick = () => mostrarLoading({ message:'Copiando', successMessage:'Dados copiados!', onComplete:copiarDadosPagamento });
+            document.getElementById('btnEnviar').onclick = (e) => { e.preventDefault(); mostrarLoading({ message:'Registrando', successMessage:'Registrado!', onComplete:processarFormulario }); };
+            document.getElementById('exportarHistoricoBtn').onclick = () => mostrarLoading({ message:'Exportando', successMessage:'Exportado!', onComplete:exportarHistorico });
+            document.getElementById('limparHistoricoBtn').onclick = () => limparHistorico();
             document.getElementById('enviarWhatsAppBtn').onclick = enviarWhatsApp;
             document.getElementById('enviarSMSBtn').onclick = enviarSMS;
-            
-            document.getElementById('confirmActionBtn').onclick=()=>{ if(acaoConfirmar) acaoConfirmar(); };
-            document.getElementById('cancelConfirmBtn').onclick=()=>{ fecharModal('confirmModal'); acaoConfirmar=null; };
-            
-            // Novos botões de discagem rápida
+            document.getElementById('confirmActionBtn').onclick = () => { if(acaoConfirmar) acaoConfirmar(); };
+            document.getElementById('cancelConfirmBtn').onclick = () => { fecharModal('confirmModal'); acaoConfirmar = null; };
             document.getElementById('discarEmolaBtn').onclick = discarEmola;
             document.getElementById('discarPagaFacilBtn').onclick = discarPagaFacil;
             
-            document.querySelectorAll('.close').forEach(btn=>{ btn.onclick=()=>fecharModal(btn.dataset.modal); });
-            window.onclick=(e)=>{ if(e.target.classList.contains('modal')) fecharModal(e.target.id); };
-            document.getElementById('searchPacotes').addEventListener('keyup',filtrarPacotes);
-            document.getElementById('searchHistorico').addEventListener('keyup',filtrarHistorico);
-            setTimeout(()=>{ const entry=document.getElementById('entryLoading'); entry.classList.add('fade-out'); setTimeout(()=>entry.style.display='none',500); },2000);
+            document.querySelectorAll('.close').forEach(btn => { btn.onclick = () => fecharModal(btn.dataset.modal); });
+            window.onclick = (e) => { if(e.target.classList.contains('modal')) fecharModal(e.target.id); };
+            document.getElementById('searchPacotes').addEventListener('keyup', filtrarPacotes);
+            document.getElementById('searchHistorico').addEventListener('keyup', filtrarHistorico);
+            setTimeout(() => { const entry = document.getElementById('entryLoading'); entry.classList.add('fade-out'); setTimeout(() => entry.style.display = 'none', 500); }, 2000);
         });
     </script>
 </body>
