@@ -214,6 +214,9 @@
 
         .stat-value { font-size: 28px; font-weight: bold; color: #333; }
         .stat-label { font-size: 14px; color: #666; margin-top: 5px; }
+        
+        .stat-value-small { font-size: 20px; }
+        .stat-unit { font-size: 12px; color: #888; margin-left: 3px; }
 
         .instrucoes-pagamento-detalhadas {
             background: linear-gradient(135deg, #e3f2fd 0%, #bbdef5 100%);
@@ -460,12 +463,8 @@
         .tabela-historico td { padding: 12px 8px; border-bottom: 1px solid #e0e0e0; transition: all 0.3s ease; }
         .tabela-historico tr:hover td { background: #f5f5f5; transform: scale(1.01); }
         body.modal-open .tabela-historico tr:hover td { transform: none; }
-        .status-pendente { color: #ff9800; font-weight: bold; animation: statusBlink 2s ease infinite; }
-        body.modal-open .status-pendente { animation-play-state: paused !important; }
-        @keyframes statusBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
-        .status-pago { color: #28a745; font-weight: bold; }
-
-        .btn-confirmar, .btn-copiar-msg, .btn-deletar {
+        
+        .btn-copiar-msg, .btn-deletar {
             border: none;
             padding: 8px 12px;
             border-radius: 8px;
@@ -477,11 +476,10 @@
             gap: 5px;
             transition: all 0.2s ease;
         }
-        .btn-confirmar { background: #28a745; color: white; }
         .btn-copiar-msg { background: #1e3c72; color: white; }
         .btn-deletar { background: #dc3545; color: white; }
-        .btn-confirmar:hover, .btn-copiar-msg:hover, .btn-deletar:hover { transform: translateY(-2px) scale(1.05); }
-        .btn-confirmar:active, .btn-copiar-msg:active, .btn-deletar:active { transform: translateY(0) scale(0.95); }
+        .btn-copiar-msg:hover, .btn-deletar:hover { transform: translateY(-2px) scale(1.05); }
+        .btn-copiar-msg:active, .btn-deletar:active { transform: translateY(0) scale(0.95); }
 
         .search-box {
             position: relative;
@@ -929,6 +927,19 @@
             .chat-messages { height: 280px; }
             .quick-dial-btn { min-width: 100%; }
         }
+        
+        .total-data-highlight {
+            background: linear-gradient(135deg, #1e3c72, #0a1a3a);
+            color: white !important;
+        }
+        .total-data-highlight .stat-value,
+        .total-data-highlight .stat-label,
+        .total-data-highlight i {
+            color: white !important;
+        }
+        .total-data-highlight i {
+            animation: none !important;
+        }
     </style>
 </head>
 <body>
@@ -954,8 +965,16 @@
         </div>
 
         <div class="stats-container">
-            <div class="stat-card"><i class="fas fa-clock"></i><div class="stat-value" id="totalPendentes">0</div><div class="stat-label">Pendentes</div></div>
-            <div class="stat-card"><i class="fas fa-check-circle"></i><div class="stat-value" id="totalPagos">0</div><div class="stat-label">Pagos</div></div>
+            <div class="stat-card">
+                <i class="fas fa-chart-line"></i>
+                <div class="stat-value" id="totalCompras">0</div>
+                <div class="stat-label">Total de Compras</div>
+            </div>
+            <div class="stat-card total-data-highlight">
+                <i class="fas fa-database"></i>
+                <div class="stat-value" id="totalDados">0</div>
+                <div class="stat-label">Total de Dados Comprados</div>
+            </div>
         </div>
 
         <div class="grid-2cols">
@@ -996,14 +1015,14 @@
                 </div>
 
                 <div class="form-section">
-                    <h2><i class="fas fa-credit-card"></i> REGISTRAR PAGAMENTO</h2>
+                    <h2><i class="fas fa-credit-card"></i> REGISTRAR COMPRA</h2>
                     <form id="paymentForm">
                         <div class="form-group"><label><i class="fas fa-user"></i> Nome do Cliente</label><input type="text" id="nomeCliente" placeholder="Digite o nome completo"><div class="error-message" id="errorNome" style="display:none; color:#dc3545; font-size:12px;">Insira o nome corretamente</div></div>
                         <div class="form-group"><label><i class="fas fa-phone"></i> Número que pretende receber MB</label><input type="tel" id="celular" placeholder="84 ou 85"><div class="error-message" id="errorCelular" style="display:none; color:#dc3545; font-size:12px;">Verificar se o número está correto</div></div>
                         <div class="form-group"><label><i class="fas fa-box"></i> Pacote</label><select id="pacote"><option value="">Selecione um pacote</option></select><div class="error-message" id="errorPacote" style="display:none; color:#dc3545; font-size:12px;">Selecione um pacote</div></div>
                         <div class="form-group"><label><i class="fas fa-money-bill"></i> Método de Pagamento</label><select id="metodoPagamento"><option value="eMola">eMola (867047493 - Aster Eusébio Serrote)</option><option value="Vodacom Paga Fácil">Paga Fácil (1232359 - EUGENIO-Venda Online)</option></select></div>
                         <div class="form-group"><label><i class="fas fa-comment"></i> Mensagem do pagamento</label><textarea id="observacoes" rows="2" placeholder="Cole a mensagem de confirmação aqui"></textarea></div>
-                        <button type="submit" class="btn" id="btnEnviar"><i class="fab fa-whatsapp"></i> Finalizar o seu pagamento</button>
+                        <button type="submit" class="btn" id="btnEnviar"><i class="fab fa-whatsapp"></i> Finalizar Compra</button>
                     </form>
                 </div>
             </div>
@@ -1020,9 +1039,16 @@
         </div>
 
         <div class="historico-section">
-            <h2><i class="fas fa-history"></i> HISTÓRICO DE PAGAMENTOS<button class="btn-copiar-msg" id="exportarHistoricoBtn" style="width: auto; margin-left: 10px; padding: 5px 12px;"><i class="fas fa-download"></i> Exportar</button></h2>
+            <h2><i class="fas fa-history"></i> HISTÓRICO DE COMPRAS<button class="btn-copiar-msg" id="exportarHistoricoBtn" style="width: auto; margin-left: 10px; padding: 5px 12px;"><i class="fas fa-download"></i> Exportar</button></h2>
             <div class="search-box"><i class="fas fa-search"></i><input type="text" id="searchHistorico" placeholder="Pesquisar no histórico..."></div>
-            <div style="overflow-x: auto;"><table class="tabela-historico" id="tabelaHistorico"><thead><tr><th>Data</th><th>Cliente</th><th>Celular</th><th>Pacote</th><th>Status</th><th>Ações</th></tr></thead><tbody id="historicoBody"></tbody></table></div>
+            <div style="overflow-x: auto;">
+                <table class="tabela-historico" id="tabelaHistorico">
+                    <thead>
+                        <tr><th>Data</th><th>Cliente</th><th>Celular</th><th>Pacote</th><th>Dados (MB)</th><th>Ações</th</tr>
+                    </thead>
+                    <tbody id="historicoBody"></tbody>
+                </table>
+            </div>
             <div style="text-align: center; margin-top: 20px;"><button class="btn-copiar-msg" id="limparHistoricoBtn" style="background: #dc3545;"><i class="fas fa-trash"></i> LIMPAR HISTÓRICO</button></div>
         </div>
     </div>
@@ -1064,56 +1090,313 @@
     <script>
         // ==================== CONFIGURAÇÕES ====================
         const DADOS_PAGAMENTO = { mpesa: { numero: "867047493", nome: "Aster Eusébio Serrote" }, pagafacil: { codigo: "1232359", nome: "EUGENIO-Venda Online" } };
-        const pacotes = { diarios: [{ nome: "247MB", preco: "7MT" }, { nome: "353MB", preco: "10MT" }, { nome: "529MB", preco: "15MT" }, { nome: "715MB", preco: "20MT" }, { nome: "1050MB", preco: "30MT" }, { nome: "1480MB", preco: "40MT" }, { nome: "1756MB", preco: "50MT" }, { nome: "2640MB", preco: "75MT" }, { nome: "3580MB", preco: "100MT" }], semanais: [{ nome: "857MB", preco: "30MT" }, { nome: "1785MB", preco: "50MT" }, { nome: "2967MB", preco: "85MT" }, { nome: "3468MB", preco: "100MT" }, { nome: "5300MB", preco: "150MT" }, { nome: "7150MB", preco: "200MT" }, { nome: "10750MB", preco: "300MT" }], mensais: [{ nome: "2879MB", preco: "100MT" }, { nome: "7050MB", preco: "200MT" }, { nome: "10569MB", preco: "300MT" }, { nome: "17980MB", preco: "500MT" }, { nome: "35878MB", preco: "1000MT" }, { nome: "71590MB", preco: "2000MT" }] };
-        let pagamentos = [], ultimaMensagem = '', acaoConfirmar = null, loadingActive = false;
+        
+        // Pacotes com dados em MB
+        const pacotes = { 
+            diarios: [
+                { nome: "247MB", preco: "7MT", dados: 247 }, 
+                { nome: "353MB", preco: "10MT", dados: 353 }, 
+                { nome: "529MB", preco: "15MT", dados: 529 }, 
+                { nome: "715MB", preco: "20MT", dados: 715 }, 
+                { nome: "1050MB", preco: "30MT", dados: 1050 }, 
+                { nome: "1480MB", preco: "40MT", dados: 1480 }, 
+                { nome: "1756MB", preco: "50MT", dados: 1756 }, 
+                { nome: "2640MB", preco: "75MT", dados: 2640 }, 
+                { nome: "3580MB", preco: "100MT", dados: 3580 }
+            ], 
+            semanais: [
+                { nome: "857MB", preco: "30MT", dados: 857 }, 
+                { nome: "1785MB", preco: "50MT", dados: 1785 }, 
+                { nome: "2967MB", preco: "85MT", dados: 2967 }, 
+                { nome: "3468MB", preco: "100MT", dados: 3468 }, 
+                { nome: "5300MB", preco: "150MT", dados: 5300 }, 
+                { nome: "7150MB", preco: "200MT", dados: 7150 }, 
+                { nome: "10750MB", preco: "300MT", dados: 10750 }
+            ], 
+            mensais: [
+                { nome: "2879MB", preco: "100MT", dados: 2879 }, 
+                { nome: "7050MB", preco: "200MT", dados: 7050 }, 
+                { nome: "10569MB", preco: "300MT", dados: 10569 }, 
+                { nome: "17980MB", preco: "500MT", dados: 17980 }, 
+                { nome: "35878MB", preco: "1000MT", dados: 35878 }, 
+                { nome: "71590MB", preco: "2000MT", dados: 71590 }
+            ] 
+        };
+        
+        let compras = [], ultimaMensagem = '', acaoConfirmar = null, loadingActive = false;
 
         // Funções utilitárias
         function mostrarLoading(options) { return new Promise((resolve) => { if(loadingActive) { resolve(); return; } loadingActive=true; const overlay=document.getElementById('clickLoading'); const textEl=document.getElementById('loadingText'); const subtextEl=document.getElementById('loadingSubtext'); const timerSpan=document.getElementById('timerSeconds'); if(textEl) textEl.textContent=options.message||'Processando'; if(subtextEl) subtextEl.textContent=options.submessage||'Aguarde'; overlay.style.display='flex'; let segundos=3; if(timerSpan) timerSpan.textContent=segundos; const timer=setInterval(()=>{ segundos--; if(timerSpan) timerSpan.textContent=segundos>=0?segundos:0; if(segundos<=0) clearInterval(timer); },1000); setTimeout(()=>{ clearInterval(timer); overlay.style.display='none'; loadingActive=false; if(options.onComplete) options.onComplete(); if(options.successMessage) mostrarNotificacao(options.successMessage,'success'); resolve(); },3000); }); }
+        
         function mostrarNotificacao(mensagem, tipo) { let notif=document.getElementById('notification'); if(!notif){ notif=document.createElement('div'); notif.id='notification'; notif.className='notification'; notif.innerHTML='<i class="fas fa-info-circle"></i><span id="notifMsg"></span>'; document.body.appendChild(notif); } notif.className='notification '+(tipo||'success'); document.getElementById('notifMsg').textContent=mensagem; notif.style.display='flex'; setTimeout(()=>{ notif.style.display='none'; },2500); }
+        
         function copiarTexto(texto) { if(navigator.clipboard) navigator.clipboard.writeText(texto).then(()=>mostrarNotificacao('Copiado!')).catch(()=>fallbackCopy(texto)); else fallbackCopy(texto); }
         function fallbackCopy(texto) { const ta=document.createElement('textarea'); ta.value=texto; ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); mostrarNotificacao('Copiado!'); }
         function abrirModal(modalId) { const modal=document.getElementById(modalId); if(modal){ modal.style.display='block'; document.body.classList.add('modal-open'); document.body.classList.remove('modal-closing'); } }
         function fecharModal(modalId) { const modal=document.getElementById(modalId); if(modal){ modal.style.display='none'; document.body.classList.add('modal-closing'); document.body.classList.remove('modal-open'); setTimeout(()=>{ document.body.classList.remove('modal-closing'); const modalsAbertas=document.querySelectorAll('.modal[style*="display: block"]'); if(modalsAbertas.length===0) document.body.classList.remove('modal-open'); },500); } }
         
-        // Funções de pagamento
-        function carregarPagamentos() { try{ const saved=localStorage.getItem('pagamentos_agencia_miller'); pagamentos=saved?JSON.parse(saved):[]; }catch(e){ pagamentos=[]; } renderizarHistorico(); atualizarEstatisticas(); }
-        function salvarPagamentos() { try{ localStorage.setItem('pagamentos_agencia_miller',JSON.stringify(pagamentos)); }catch(e){} atualizarEstatisticas(); }
-        function atualizarEstatisticas() { document.getElementById('totalPendentes').textContent=pagamentos.filter(p=>p.status==='Pendente').length; document.getElementById('totalPagos').textContent=pagamentos.filter(p=>p.status==='Pago').length; }
-        function renderizarPacotes() { const diariosDiv=document.getElementById('diarios'), semanaisDiv=document.getElementById('semanais'), mensaisDiv=document.getElementById('mensais'); diariosDiv.innerHTML=''; semanaisDiv.innerHTML=''; mensaisDiv.innerHTML=''; pacotes.diarios.forEach(p=>{ diariosDiv.appendChild(criarPacote(p.nome,p.preco)); }); pacotes.semanais.forEach(p=>{ semanaisDiv.appendChild(criarPacote(p.nome,p.preco)); }); pacotes.mensais.forEach(p=>{ mensaisDiv.appendChild(criarPacote(p.nome,p.preco)); }); }
-        function criarPacote(nome,preco){ const div=document.createElement('div'); div.className='pacote-item'; div.setAttribute('data-nome',nome); div.setAttribute('data-preco',preco); div.innerHTML=`<span><i class="fas fa-box"></i> ${nome}</span><span class="pacote-preco">${preco}</span>`; div.onclick=()=>{ mostrarLoading({ message:'Selecionando', submessage:'Pacote...', successMessage:'✓ Pacote selecionado!', onComplete:()=>selecionarPacote(div) }); }; return div; }
-        function selecionarPacote(el){ document.querySelectorAll('.pacote-item').forEach(item=>item.classList.remove('selected')); el.classList.add('selected'); const nome=el.getAttribute('data-nome'), preco=el.getAttribute('data-preco'), select=document.getElementById('pacote'), valor=`${nome} - ${preco}`; let opt=Array.from(select.options).find(o=>o.value===valor); if(!opt){ opt=document.createElement('option'); opt.value=valor; opt.text=valor; select.appendChild(opt); } select.value=valor; }
-        function preencherSelectPacotes(){ const select=document.getElementById('pacote'); select.innerHTML='<option value="">Selecione</option>'; [...pacotes.diarios,...pacotes.semanais,...pacotes.mensais].forEach(p=>{ const opt=document.createElement('option'); opt.value=`${p.nome} - ${p.preco}`; opt.text=`${p.nome} - ${p.preco}`; select.appendChild(opt); }); }
-        function filtrarPacotes(){ const termo=document.getElementById('searchPacotes').value.toLowerCase(); document.querySelectorAll('.pacote-item').forEach(item=>{ item.style.display=item.textContent.toLowerCase().includes(termo)?'flex':'none'; }); }
-        function validarFormulario(){ let ok=true; const nome=document.getElementById('nomeCliente').value.trim(), celular=document.getElementById('celular').value.trim(), pacote=document.getElementById('pacote').value; document.querySelectorAll('.error-message').forEach(e=>e.style.display='none'); if(!nome){ document.getElementById('errorNome').style.display='block'; ok=false; } if(!celular){ document.getElementById('errorCelular').style.display='block'; ok=false; } else if(!/^[0-9]{9,12}$/.test(celular)){ document.getElementById('errorCelular').innerHTML='<i class="fas fa-exclamation-circle"></i> Celular inválido'; document.getElementById('errorCelular').style.display='block'; ok=false; } if(!pacote){ document.getElementById('errorPacote').style.display='block'; ok=false; } return ok; }
-        function gerarMensagem(d){ const dadosPag=d.metodo.includes('eMola')?`eMola: ${DADOS_PAGAMENTO.mpesa.numero} - ${DADOS_PAGAMENTO.mpesa.nome}`:`Paga Fácil: ${DADOS_PAGAMENTO.pagafacil.codigo} - ${DADOS_PAGAMENTO.pagafacil.nome}`; return `Novo Pagamento - Agência Miller \n\nCliente: ${d.nome}\nCelular: ${d.celular}\nPacote: ${d.pacote}\nMétodo: ${d.metodo}\nConta: ${dadosPag}\nMensagem: ${d.observacoes}\nData: ${d.data}\nStatus: ${d.status}`; }
+        // Função para extrair dados MB do nome do pacote
+        function extrairDadosMB(nomePacote) {
+            const match = nomePacote.match(/(\d+)\s*MB/i);
+            if (match) return parseInt(match[1]);
+            return 0;
+        }
+        
+        // Função para obter dados do pacote pelo nome
+        function getDadosFromPacote(nomePacote) {
+            const todosPacotes = [...pacotes.diarios, ...pacotes.semanais, ...pacotes.mensais];
+            const pacote = todosPacotes.find(p => p.nome === nomePacote);
+            return pacote ? pacote.dados : extrairDadosMB(nomePacote);
+        }
+        
+        // Carregar compras
+        function carregarCompras() { 
+            try{ const saved=localStorage.getItem('compras_agencia_miller'); 
+            compras=saved?JSON.parse(saved):[]; }catch(e){ compras=[]; } 
+            renderizarHistorico(); 
+            atualizarEstatisticas(); 
+        }
+        
+        function salvarCompras() { 
+            try{ localStorage.setItem('compras_agencia_miller',JSON.stringify(compras)); }catch(e){} 
+            atualizarEstatisticas(); 
+        }
+        
+        function atualizarEstatisticas() { 
+            document.getElementById('totalCompras').textContent = compras.length;
+            
+            // Calcular total de dados
+            let totalDados = 0;
+            compras.forEach(compra => {
+                const dados = getDadosFromPacote(compra.pacote);
+                totalDados += dados;
+            });
+            
+            // Formatar total de dados (ex: 1.2GB, 500MB)
+            let dadosFormatado = '';
+            if (totalDados >= 1024) {
+                dadosFormatado = (totalDados / 1024).toFixed(2) + ' GB';
+            } else {
+                dadosFormatado = totalDados.toLocaleString() + ' MB';
+            }
+            
+            document.getElementById('totalDados').textContent = dadosFormatado;
+        }
+        
+        function renderizarPacotes() { 
+            const diariosDiv=document.getElementById('diarios'), semanaisDiv=document.getElementById('semanais'), mensaisDiv=document.getElementById('mensais'); 
+            diariosDiv.innerHTML=''; semanaisDiv.innerHTML=''; mensaisDiv.innerHTML=''; 
+            pacotes.diarios.forEach(p=>{ diariosDiv.appendChild(criarPacote(p.nome,p.preco,p.dados)); }); 
+            pacotes.semanais.forEach(p=>{ semanaisDiv.appendChild(criarPacote(p.nome,p.preco,p.dados)); }); 
+            pacotes.mensais.forEach(p=>{ mensaisDiv.appendChild(criarPacote(p.nome,p.preco,p.dados)); }); 
+        }
+        
+        function criarPacote(nome,preco,dados){ 
+            const div=document.createElement('div'); 
+            div.className='pacote-item'; 
+            div.setAttribute('data-nome',nome); 
+            div.setAttribute('data-preco',preco); 
+            div.setAttribute('data-dados',dados); 
+            div.innerHTML=`<span><i class="fas fa-box"></i> ${nome}</span><span class="pacote-preco">${preco}</span>`; 
+            div.onclick=()=>{ 
+                mostrarLoading({ message:'Selecionando', submessage:'Pacote...', successMessage:'✓ Pacote selecionado!', onComplete:()=>selecionarPacote(div) }); 
+            }; 
+            return div; 
+        }
+        
+        function selecionarPacote(el){ 
+            document.querySelectorAll('.pacote-item').forEach(item=>item.classList.remove('selected')); 
+            el.classList.add('selected'); 
+            const nome=el.getAttribute('data-nome'), preco=el.getAttribute('data-preco'), select=document.getElementById('pacote'), valor=`${nome} - ${preco}`; 
+            let opt=Array.from(select.options).find(o=>o.value===valor); 
+            if(!opt){ 
+                opt=document.createElement('option'); 
+                opt.value=valor; 
+                opt.text=valor; 
+                select.appendChild(opt); 
+            } 
+            select.value=valor; 
+        }
+        
+        function preencherSelectPacotes(){ 
+            const select=document.getElementById('pacote'); 
+            select.innerHTML='<option value="">Selecione</option>'; 
+            [...pacotes.diarios,...pacotes.semanais,...pacotes.mensais].forEach(p=>{ 
+                const opt=document.createElement('option'); 
+                opt.value=`${p.nome} - ${p.preco}`; 
+                opt.text=`${p.nome} - ${p.preco}`; 
+                select.appendChild(opt); 
+            }); 
+        }
+        
+        function filtrarPacotes(){ 
+            const termo=document.getElementById('searchPacotes').value.toLowerCase(); 
+            document.querySelectorAll('.pacote-item').forEach(item=>{ 
+                item.style.display=item.textContent.toLowerCase().includes(termo)?'flex':'none'; 
+            }); 
+        }
+        
+        function validarFormulario(){ 
+            let ok=true; 
+            const nome=document.getElementById('nomeCliente').value.trim(), celular=document.getElementById('celular').value.trim(), pacote=document.getElementById('pacote').value; 
+            document.querySelectorAll('.error-message').forEach(e=>e.style.display='none'); 
+            if(!nome){ document.getElementById('errorNome').style.display='block'; ok=false; } 
+            if(!celular){ document.getElementById('errorCelular').style.display='block'; ok=false; } 
+            else if(!/^[0-9]{9,12}$/.test(celular)){ 
+                document.getElementById('errorCelular').innerHTML='<i class="fas fa-exclamation-circle"></i> Celular inválido'; 
+                document.getElementById('errorCelular').style.display='block'; 
+                ok=false; 
+            } 
+            if(!pacote){ document.getElementById('errorPacote').style.display='block'; ok=false; } 
+            return ok; 
+        }
+        
+        function gerarMensagem(compra){ 
+            const dadosPag=compra.metodo.includes('eMola')?`eMola: ${DADOS_PAGAMENTO.mpesa.numero} - ${DADOS_PAGAMENTO.mpesa.nome}`:`Paga Fácil: ${DADOS_PAGAMENTO.pagafacil.codigo} - ${DADOS_PAGAMENTO.pagafacil.nome}`; 
+            return `Nova Compra - Agência Miller \n\nCliente: ${compra.nome}\nCelular: ${compra.celular}\nPacote: ${compra.pacote}\nDados: ${getDadosFromPacote(compra.pacote)} MB\nMétodo: ${compra.metodo}\nConta: ${dadosPag}\nMensagem: ${compra.observacoes}\nData: ${compra.data}`; 
+        }
         
         function processarFormulario(){ 
             if(!validarFormulario()){ mostrarNotificacao('Preencha todos os campos','error'); return; } 
-            const pagamento = { id:Date.now(), data:new Date().toLocaleString('pt-BR'), nome:document.getElementById('nomeCliente').value.trim(), celular:document.getElementById('celular').value.trim(), pacote:document.getElementById('pacote').value, metodo:document.getElementById('metodoPagamento').value, observacoes:document.getElementById('observacoes').value.trim()||'Nenhuma', status:'Pendente' }; 
-            pagamentos.push(pagamento); salvarPagamentos(); ultimaMensagem = gerarMensagem(pagamento); 
-            document.getElementById('mensagemPrevia').textContent = ultimaMensagem; abrirModal('escolhaModal'); 
-            document.getElementById('paymentForm').reset(); document.querySelectorAll('.pacote-item.selected').forEach(i=>i.classList.remove('selected')); renderizarHistorico(); 
+            
+            const pacoteSelecionado = document.getElementById('pacote').value;
+            const nomePacote = pacoteSelecionado.split(' - ')[0];
+            const dadosMB = getDadosFromPacote(nomePacote);
+            
+            const compra = { 
+                id:Date.now(), 
+                data:new Date().toLocaleString('pt-BR'), 
+                nome:document.getElementById('nomeCliente').value.trim(), 
+                celular:document.getElementById('celular').value.trim(), 
+                pacote:nomePacote, 
+                metodo:document.getElementById('metodoPagamento').value, 
+                observacoes:document.getElementById('observacoes').value.trim()||'Nenhuma',
+                dados: dadosMB
+            }; 
+            
+            compras.push(compra); 
+            salvarCompras(); 
+            ultimaMensagem = gerarMensagem(compra); 
+            document.getElementById('mensagemPrevia').textContent = ultimaMensagem; 
+            abrirModal('escolhaModal'); 
+            document.getElementById('paymentForm').reset(); 
+            document.querySelectorAll('.pacote-item.selected').forEach(i=>i.classList.remove('selected')); 
+            renderizarHistorico(); 
         }
         
-        function enviarWhatsApp() { const numero = "258867047493"; const texto = encodeURIComponent(ultimaMensagem); window.open(`https://wa.me/${numero}?text=${texto}`, '_blank'); fecharModal('escolhaModal'); mostrarNotificacao('Redirecionando para WhatsApp...', 'success'); }
-        function enviarSMS() { const numero = "867047493"; if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) { window.location.href = `sms:${numero}?body=${encodeURIComponent(ultimaMensagem)}`; } else { copiarTexto(ultimaMensagem); mostrarNotificacao('Mensagem copiada! Envie via SMS no seu celular.', 'success'); } fecharModal('escolhaModal'); }
+        function enviarWhatsApp() { 
+            const numero = "258867047493"; 
+            const texto = encodeURIComponent(ultimaMensagem); 
+            window.open(`https://wa.me/${numero}?text=${texto}`, '_blank'); 
+            fecharModal('escolhaModal'); 
+            mostrarNotificacao('Redirecionando para WhatsApp...', 'success'); 
+        }
+        
+        function enviarSMS() { 
+            const numero = "867047493"; 
+            if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) { 
+                window.location.href = `sms:${numero}?body=${encodeURIComponent(ultimaMensagem)}`; 
+            } else { 
+                copiarTexto(ultimaMensagem); 
+                mostrarNotificacao('Mensagem copiada! Envie via SMS no seu celular.', 'success'); 
+            } 
+            fecharModal('escolhaModal'); 
+        }
         
         function renderizarHistorico(){ 
-            const tbody=document.getElementById('historicoBody'); tbody.innerHTML=''; if(pagamentos.length===0){ tbody.innerHTML='<tr><td colspan="6" style="text-align:center; padding:20px;">Nenhum registro</td></tr>'; return; } 
-            pagamentos.sort((a,b)=>b.id-a.id).forEach(p=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td>${p.data}</td><td>${p.nome}</td><td>${p.celular}</td><td>${p.pacote}</td><td class="status-${p.status.toLowerCase()}">${p.status}</td><td><button class="btn-confirmar" data-id="${p.id}"><i class="fas fa-check"></i></button><button class="btn-copiar-msg" data-id="${p.id}"><i class="fas fa-copy"></i></button><button class="btn-deletar" data-id="${p.id}"><i class="fas fa-trash"></i></button></td>`; tbody.appendChild(tr); }); 
-            document.querySelectorAll('.btn-confirmar').forEach(btn=>{ btn.onclick=(e)=>{ e.stopPropagation(); const id=parseInt(btn.dataset.id); mostrarLoading({ message:'Atualizando', successMessage:'Status alterado!', onComplete:()=>{ const p=pagamentos.find(p=>p.id===id); if(p) p.status=p.status==='Pendente'?'Pago':'Pendente'; salvarPagamentos(); renderizarHistorico(); } }); }; }); 
-            document.querySelectorAll('.btn-copiar-msg').forEach(btn=>{ if(btn.id!=='exportarHistoricoBtn' && btn.id!=='limparHistoricoBtn'){ btn.onclick=(e)=>{ e.stopPropagation(); const id=parseInt(btn.dataset.id); const p=pagamentos.find(p=>p.id===id); if(p) copiarTexto(gerarMensagem(p)); }; } }); 
-            document.querySelectorAll('.btn-deletar').forEach(btn=>{ btn.onclick=(e)=>{ e.stopPropagation(); const id=parseInt(btn.dataset.id); document.getElementById('confirmMessage').textContent='Deletar este pagamento?'; abrirModal('confirmModal'); acaoConfirmar=()=>{ mostrarLoading({ message:'Deletando', successMessage:'Removido!', onComplete:()=>{ pagamentos=pagamentos.filter(p=>p.id!==id); salvarPagamentos(); renderizarHistorico(); } }); fecharModal('confirmModal'); }; }; }); 
+            const tbody=document.getElementById('historicoBody'); 
+            tbody.innerHTML=''; 
+            if(compras.length===0){ 
+                tbody.innerHTML='<tr><td colspan="6" style="text-align:center; padding:20px;">Nenhum registro</td></tr>'; 
+                return; 
+            } 
+            
+            compras.sort((a,b)=>b.id-a.id).forEach(compra=>{ 
+                const tr=document.createElement('tr'); 
+                const dadosExibicao = compra.dados ? compra.dados : getDadosFromPacote(compra.pacote);
+                tr.innerHTML=`
+                    <td>${compra.data}</td>
+                    <td>${compra.nome}</td>
+                    <td>${compra.celular}</td>
+                    <td>${compra.pacote}</td>
+                    <td>${dadosExibicao.toLocaleString()} MB</td>
+                    <td>
+                        <button class="btn-copiar-msg" data-id="${compra.id}"><i class="fas fa-copy"></i></button>
+                        <button class="btn-deletar" data-id="${compra.id}"><i class="fas fa-trash"></i></button>
+                    </td>
+                `; 
+                tbody.appendChild(tr); 
+            }); 
+            
+            document.querySelectorAll('.btn-copiar-msg').forEach(btn=>{ 
+                if(btn.id!=='exportarHistoricoBtn' && btn.id!=='limparHistoricoBtn'){ 
+                    btn.onclick=(e)=>{ 
+                        e.stopPropagation(); 
+                        const id=parseInt(btn.dataset.id); 
+                        const compra=compras.find(p=>p.id===id); 
+                        if(compra) copiarTexto(gerarMensagem(compra)); 
+                    }; 
+                } 
+            }); 
+            
+            document.querySelectorAll('.btn-deletar').forEach(btn=>{ 
+                btn.onclick=(e)=>{ 
+                    e.stopPropagation(); 
+                    const id=parseInt(btn.dataset.id); 
+                    document.getElementById('confirmMessage').textContent='Deletar esta compra?'; 
+                    abrirModal('confirmModal'); 
+                    acaoConfirmar=()=>{ 
+                        mostrarLoading({ message:'Deletando', successMessage:'Removido!', onComplete:()=>{ 
+                            compras=compras.filter(p=>p.id!==id); 
+                            salvarCompras(); 
+                            renderizarHistorico(); 
+                        } }); 
+                        fecharModal('confirmModal'); 
+                    }; 
+                }; 
+            }); 
         }
         
-        function limparHistorico(){ if(pagamentos.length===0){ mostrarNotificacao('Histórico vazio','error'); return; } document.getElementById('confirmMessage').textContent='Limpar TODO o histórico?'; abrirModal('confirmModal'); acaoConfirmar=()=>{ mostrarLoading({ message:'Limpando', successMessage:'Histórico limpo!', onComplete:()=>{ pagamentos=[]; salvarPagamentos(); renderizarHistorico(); } }); fecharModal('confirmModal'); }; }
-        function exportarHistorico(){ if(pagamentos.length===0){ mostrarNotificacao('Nada para exportar','error'); return; } let txt='HISTÓRICO AGÊNCIA MILLER\n\n'; pagamentos.forEach(p=>{ txt+=`${p.data} | ${p.nome} | ${p.celular} | ${p.pacote} | ${p.status}\n`; }); copiarTexto(txt); }
-        function filtrarHistorico(){ const termo=document.getElementById('searchHistorico').value.toLowerCase(); document.querySelectorAll('#historicoBody tr').forEach(tr=>{ tr.style.display=tr.textContent.toLowerCase().includes(termo)?'':'none'; }); }
-        function copiarDadosPagamento(){ const dados=`eMola: ${DADOS_PAGAMENTO.mpesa.numero} - ${DADOS_PAGAMENTO.mpesa.nome}\nPaga Fácil: ${DADOS_PAGAMENTO.pagafacil.codigo} - ${DADOS_PAGAMENTO.pagafacil.nome}`; copiarTexto(dados); }
+        function limparHistorico(){ 
+            if(compras.length===0){ mostrarNotificacao('Histórico vazio','error'); return; } 
+            document.getElementById('confirmMessage').textContent='Limpar TODO o histórico?'; 
+            abrirModal('confirmModal'); 
+            acaoConfirmar=()=>{ 
+                mostrarLoading({ message:'Limpando', successMessage:'Histórico limpo!', onComplete:()=>{ 
+                    compras=[]; 
+                    salvarCompras(); 
+                    renderizarHistorico(); 
+                } }); 
+                fecharModal('confirmModal'); 
+            }; 
+        }
+        
+        function exportarHistorico(){ 
+            if(compras.length===0){ mostrarNotificacao('Nada para exportar','error'); return; } 
+            let txt='HISTÓRICO DE COMPRAS - AGÊNCIA MILLER\n\n'; 
+            compras.forEach(compra=>{ 
+                const dados = compra.dados || getDadosFromPacote(compra.pacote);
+                txt+=`${compra.data} | ${compra.nome} | ${compra.celular} | ${compra.pacote} | ${dados} MB\n`; 
+            }); 
+            copiarTexto(txt); 
+        }
+        
+        function filtrarHistorico(){ 
+            const termo=document.getElementById('searchHistorico').value.toLowerCase(); 
+            document.querySelectorAll('#historicoBody tr').forEach(tr=>{ 
+                tr.style.display=tr.textContent.toLowerCase().includes(termo)?'':'none'; 
+            }); 
+        }
+        
+        function copiarDadosPagamento(){ 
+            const dados=`eMola: ${DADOS_PAGAMENTO.mpesa.numero} - ${DADOS_PAGAMENTO.mpesa.nome}\nPaga Fácil: ${DADOS_PAGAMENTO.pagafacil.codigo} - ${DADOS_PAGAMENTO.pagafacil.nome}`; 
+            copiarTexto(dados); 
+        }
+        
         function discarEmola() { window.location.href = 'tel:*898%23'; mostrarNotificacao('A discar *898# para eMola...', 'success'); }
         function discarPagaFacil() { window.location.href = 'tel:*150%23'; mostrarNotificacao('A discar *150# para Vodacom Paga Fácil...', 'success'); }
 
-        // ==================== ASSISTENTE VIRTUAL REORGANIZADO ====================
+        // ==================== ASSISTENTE VIRTUAL ====================
         const chatContainer = document.getElementById('chatContainer');
         const chatMessages = document.getElementById('chatMessages');
         const chatInput = document.getElementById('chatInput');
@@ -1187,53 +1470,43 @@
         function botResponse(question) {
             const q = question.toLowerCase().trim();
             
-            // Menu principal / Ajuda
             if(q.includes('menu') || q.includes('ajuda') || q.includes('opções') || q.includes('opcoes') || q.includes('oque voce faz') || q.includes('o que você faz')) {
                 return ` **MENU DE AJUDA - Agência Miller**\n\n Digite "pacotes" para ver todos os pacotes e preços\n Digite "pagamento" para ver métodos de pagamento\n Digite "como comprar" para ver o passo a passo\n Digite "prazo" para saber o tempo de ativação\n Digite "contato" para falar com atendente humano\n Digite "sobre" para saber quem somos\n\n Qual informação você precisa?`;
             }
             
-            // Pacotes
             if(q.includes('pacote') || q.includes('internet') || q.includes('dados') || q.includes('mb') || q.includes('giga') || q.includes('gb') || q.includes('tabela')) {
                 return ` **PACOTES DISPONÍVEIS:**\n\n **DIÁRIOS:**\n247MB (7MT) | 353MB (10MT) | 529MB (15MT) | 715MB (20MT) | 1050MB (30MT) | 1480MB (40MT) | 1756MB (50MT) | 2640MB (75MT) | 3580MB (100MT)\n\n **SEMANAIS:**\n857MB (30MT) | 1785MB (50MT) | 2967MB (85MT) | 3468MB (100MT) | 5300MB (150MT) | 7150MB (200MT) | 10750MB (300MT)\n\n **MENSAIS:**\n2879MB (100MT) | 7050MB (200MT) | 10569MB (300MT) | 17980MB (500MT) | 35878MB (1000MT) | 71590MB (2000MT)`;
             }
             
-            // Preços
             if(q.includes('valor') || q.includes('preço') || q.includes('custa') || q.includes('quanto') || q.includes('preco')) {
                 return ` **TABELA DE PREÇOS:**\n\n• Pacotes Diários: 7MT a 100MT\n• Pacotes Semanais: 30MT a 300MT\n• Pacotes Mensais: 100MT a 2000MT\n\nOs preços variam conforme a quantidade de dados. Digite "pacotes" para ver a lista completa!`;
             }
             
-            // Pagamento
             if(q.includes('pagamento') || q.includes('pagar') || q.includes('emola') || q.includes('pagafácil') || q.includes('paga fácil') || q.includes('transferência') || q.includes('transferir') || q.includes('como pago')) {
                 return ` **MÉTODOS DE PAGAMENTO:**\n\n✅ **eMola:** Número 867047493 - Aster Eusébio Serrote\n✅ **Vodacom Paga Fácil:** Código 1232359 - EUGENIO-Venda Online\n\n Use os botões "Fazer pagamento" na seção DADOS PARA PAGAMENTO para aceder diretamente aos menus USSD.*898# para eMola ou *150# para Paga Fácil.\n\nApós o pagamento, registre seus dados no formulário ao lado!`;
             }
             
-            // Como comprar
             if(q.includes('como comprar') || q.includes('comprar') || q.includes('adquirir') || q.includes('como adquirir') || q.includes('processo') || q.includes('passo a passo')) {
-                return ` **PASSO A PASSO PARA COMPRAR:**\n\n1️⃣ Escolha um pacote na lista ao lado (clique sobre ele)\n2️⃣ Faça o pagamento para eMola ou Paga Fácil (use os botões de discagem rápida)\n3️⃣ Preencha o formulário com seus dados (nome e celular)\n4️⃣ Aguarde a confirmação - o status muda para "Pago"\n5️⃣ Seu pacote será ativado em até 24h úteis!\n\n✅ Simples e rápido!`;
+                return ` **PASSO A PASSO PARA COMPRAR:**\n\n1️⃣ Escolha um pacote na lista ao lado (clique sobre ele)\n2️⃣ Faça o pagamento para eMola ou Paga Fácil (use os botões de discagem rápida)\n3️⃣ Preencha o formulário com seus dados (nome e celular)\n4️⃣ Aguarde a confirmação - sua compra será registrada\n5️⃣ Seu pacote será ativado em até 24h úteis!\n\n✅ Simples e rápido!`;
             }
             
-            // Prazo
             if(q.includes('prazo') || q.includes('demora') || q.includes('ativação') || q.includes('ativar') || q.includes('quanto tempo') || q.includes('quando') || q.includes('ativacao')) {
-                return `⏱️ **PRAZO DE ATIVAÇÃO:**\n\nApós o registro do pagamento no sistema, a ativação do seu pacote de internet é feita em até **24 horas úteis**.\n\n Você pode acompanhar o status no **HISTÓRICO DE PAGAMENTOS**. Quando aparecer "Pago", seu pacote já está ativo e pronto para uso!\n\n Se ultrapassar 24h, entre em contato conosco.`;
+                return `⏱️ **PRAZO DE ATIVAÇÃO:**\n\nApós o registro da compra no sistema, a ativação do seu pacote de internet é feita em até **24 horas úteis**.\n\n Você pode acompanhar suas compras no **HISTÓRICO DE COMPRAS**.\n\n Se ultrapassar 24h, entre em contato conosco.`;
             }
             
-            // Contato humano
             if(q.includes('contato') || q.includes('falar') || q.includes('atendente') || q.includes('humano') || q.includes('suporte') || q.includes('ajuda humana') || q.includes('pessoa') || q.includes('atendimento')) {
                 showHumanContactOptions();
                 return null;
             }
             
-            // Sobre a empresa
             if(q.includes('quem é') || q.includes('agência') || q.includes('miller') || q.includes('sobre') || q.includes('empresa')) {
                 return ` **Agência Miller**\n\nSomos especialistas em ofertas de internet com os melhores preços do mercado. Trabalhamos com pacotes de dados para operadora Vodacom, com pagamento facilitado via eMola e Paga Fácil.\n\n **Missão:** Oferecer internet de qualidade e acessível para todos.\n✅ **Confiança e qualidade** são nossos valores!`;
             }
             
-            // Saudação
             if(q.includes('olá') || q.includes('oi') || q.includes('bom dia') || q.includes('boa tarde') || q.includes('boa noite') || q.includes('ola') || q.includes('hello') || q.includes('hi')) {
                 return ` Olá! Bem-vindo à **Agência Miller**! Como posso ajudá-lo hoje?\n\nDigite "menu" para ver todas as opções disponíveis ou me faça uma pergunta específica sobre:\n• Pacotes e preços\n• Pagamentos\n• Prazos de ativação\n• Como comprar`;
             }
             
-            // Resposta padrão com menu
             return `❓ Desculpe, não entendi sua pergunta.\n\n **Digite "menu"** para ver todas as opções de ajuda ou escolha uma das perguntas abaixo:\n\n• "pacotes" - Lista completa\n• "pagamento" - Como pagar\n• "como comprar" - Passo a passo\n• "prazo" - Tempo de ativação\n• "contato" - Falar com atendente\n\n Como posso ajudar você hoje?`;
         }
 
@@ -1271,12 +1544,12 @@
         
         // INICIALIZAÇÃO
         document.addEventListener('DOMContentLoaded', () => {
-            carregarPagamentos();
+            carregarCompras();
             renderizarPacotes();
             preencherSelectPacotes();
             
             document.getElementById('copiarDadosBtn').onclick = () => mostrarLoading({ message:'Copiando', successMessage:'Dados copiados!', onComplete:copiarDadosPagamento });
-            document.getElementById('btnEnviar').onclick = (e) => { e.preventDefault(); mostrarLoading({ message:'Registrando', successMessage:'Registrado!', onComplete:processarFormulario }); };
+            document.getElementById('btnEnviar').onclick = (e) => { e.preventDefault(); mostrarLoading({ message:'Registrando', successMessage:'Compra registrada!', onComplete:processarFormulario }); };
             document.getElementById('exportarHistoricoBtn').onclick = () => mostrarLoading({ message:'Exportando', successMessage:'Exportado!', onComplete:exportarHistorico });
             document.getElementById('limparHistoricoBtn').onclick = () => limparHistorico();
             document.getElementById('enviarWhatsAppBtn').onclick = enviarWhatsApp;
