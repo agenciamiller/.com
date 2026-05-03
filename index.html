@@ -1039,7 +1039,7 @@
             <button class="close-chat" id="closeChatBtn">&times;</button>
         </div>
         <div class="chat-messages" id="chatMessages">
-            <div class="message-bot">🤖 Olá! Sou o assistente virtual da <strong>Agência Miller</strong>.<br><br>📌 <strong>Posso ajudar com:</strong><br>• Lista de pacotes e preços<br>• Métodos de pagamento (eMola/Paga Fácil)<br>• Passo a passo para comprar<br>• Prazo de ativação<br>• Falar com atendente humano<br><br>💬 Digite sua pergunta abaixo!</div>
+            <div class="message-bot"> Olá! Sou o assistente virtual da <strong>Agência Miller</strong>.<br><br> <strong>Posso ajudar com:</strong><br>• Lista de pacotes e preços<br>• Métodos de pagamento (eMola/Paga Fácil)<br>• Passo a passo para comprar<br>• Prazo de ativação<br>• Falar com atendente humano<br><br> Digite sua pergunta abaixo!</div>
         </div>
         <div class="chat-input-area">
             <input type="text" id="chatInput" placeholder="Digite sua pergunta...">
@@ -1080,12 +1080,12 @@
         function salvarPagamentos() { try{ localStorage.setItem('pagamentos_agencia_miller',JSON.stringify(pagamentos)); }catch(e){} atualizarEstatisticas(); }
         function atualizarEstatisticas() { document.getElementById('totalPendentes').textContent=pagamentos.filter(p=>p.status==='Pendente').length; document.getElementById('totalPagos').textContent=pagamentos.filter(p=>p.status==='Pago').length; }
         function renderizarPacotes() { const diariosDiv=document.getElementById('diarios'), semanaisDiv=document.getElementById('semanais'), mensaisDiv=document.getElementById('mensais'); diariosDiv.innerHTML=''; semanaisDiv.innerHTML=''; mensaisDiv.innerHTML=''; pacotes.diarios.forEach(p=>{ diariosDiv.appendChild(criarPacote(p.nome,p.preco)); }); pacotes.semanais.forEach(p=>{ semanaisDiv.appendChild(criarPacote(p.nome,p.preco)); }); pacotes.mensais.forEach(p=>{ mensaisDiv.appendChild(criarPacote(p.nome,p.preco)); }); }
-        function criarPacote(nome,preco){ const div=document.createElement('div'); div.className='pacote-item'; div.setAttribute('data-nome',nome); div.setAttribute('data-preco',preco); div.innerHTML=`<span><i class="fas fa-box"></i> ${nome}</span><span class="pacote-preco">${preco}</span>`; div.onclick=()=>{ mostrarLoading({ message:'Selecionando', submessage:'Processando...', successMessage:'✓ Pacote selecionado!', onComplete:()=>selecionarPacote(div) }); }; return div; }
+        function criarPacote(nome,preco){ const div=document.createElement('div'); div.className='pacote-item'; div.setAttribute('data-nome',nome); div.setAttribute('data-preco',preco); div.innerHTML=`<span><i class="fas fa-box"></i> ${nome}</span><span class="pacote-preco">${preco}</span>`; div.onclick=()=>{ mostrarLoading({ message:'Selecionando', submessage:'Pacote...', successMessage:'✓ Pacote selecionado!', onComplete:()=>selecionarPacote(div) }); }; return div; }
         function selecionarPacote(el){ document.querySelectorAll('.pacote-item').forEach(item=>item.classList.remove('selected')); el.classList.add('selected'); const nome=el.getAttribute('data-nome'), preco=el.getAttribute('data-preco'), select=document.getElementById('pacote'), valor=`${nome} - ${preco}`; let opt=Array.from(select.options).find(o=>o.value===valor); if(!opt){ opt=document.createElement('option'); opt.value=valor; opt.text=valor; select.appendChild(opt); } select.value=valor; }
         function preencherSelectPacotes(){ const select=document.getElementById('pacote'); select.innerHTML='<option value="">Selecione</option>'; [...pacotes.diarios,...pacotes.semanais,...pacotes.mensais].forEach(p=>{ const opt=document.createElement('option'); opt.value=`${p.nome} - ${p.preco}`; opt.text=`${p.nome} - ${p.preco}`; select.appendChild(opt); }); }
         function filtrarPacotes(){ const termo=document.getElementById('searchPacotes').value.toLowerCase(); document.querySelectorAll('.pacote-item').forEach(item=>{ item.style.display=item.textContent.toLowerCase().includes(termo)?'flex':'none'; }); }
         function validarFormulario(){ let ok=true; const nome=document.getElementById('nomeCliente').value.trim(), celular=document.getElementById('celular').value.trim(), pacote=document.getElementById('pacote').value; document.querySelectorAll('.error-message').forEach(e=>e.style.display='none'); if(!nome){ document.getElementById('errorNome').style.display='block'; ok=false; } if(!celular){ document.getElementById('errorCelular').style.display='block'; ok=false; } else if(!/^[0-9]{9,12}$/.test(celular)){ document.getElementById('errorCelular').innerHTML='<i class="fas fa-exclamation-circle"></i> Celular inválido'; document.getElementById('errorCelular').style.display='block'; ok=false; } if(!pacote){ document.getElementById('errorPacote').style.display='block'; ok=false; } return ok; }
-        function gerarMensagem(d){ const dadosPag=d.metodo.includes('eMola')?`eMola: ${DADOS_PAGAMENTO.mpesa.numero} - ${DADOS_PAGAMENTO.mpesa.nome}`:`Paga Fácil: ${DADOS_PAGAMENTO.pagafacil.codigo} - ${DADOS_PAGAMENTO.pagafacil.nome}`; return `NOVO PAGAMENTO - AGÊNCIA MILLER\n\nCliente: ${d.nome}\nCelular: ${d.celular}\nPacote: ${d.pacote}\nMétodo: ${d.metodo}\nConta: ${dadosPag}\nMensagem: ${d.observacoes}\nData: ${d.data}\nStatus: ${d.status}`; }
+        function gerarMensagem(d){ const dadosPag=d.metodo.includes('eMola')?`eMola: ${DADOS_PAGAMENTO.mpesa.numero} - ${DADOS_PAGAMENTO.mpesa.nome}`:`Paga Fácil: ${DADOS_PAGAMENTO.pagafacil.codigo} - ${DADOS_PAGAMENTO.pagafacil.nome}`; return `Novo Pagamento - Agência Miller \n\nCliente: ${d.nome}\nCelular: ${d.celular}\nPacote: ${d.pacote}\nMétodo: ${d.metodo}\nConta: ${dadosPag}\nMensagem: ${d.observacoes}\nData: ${d.data}\nStatus: ${d.status}`; }
         
         function processarFormulario(){ 
             if(!validarFormulario()){ mostrarNotificacao('Preencha todos os campos','error'); return; } 
@@ -1170,7 +1170,7 @@
         function showHumanContactOptions() {
             const optionsDiv = document.createElement('div'); 
             optionsDiv.className = 'message-bot'; 
-            optionsDiv.innerHTML = `<strong>📞 Falar com atendente humano:</strong><br>Escolha uma opção abaixo:<div class="contact-options-chat"><div class="contact-chip" data-contact-type="whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</div><div class="contact-chip" data-contact-type="sms"><i class="fas fa-sms"></i> SMS</div><div class="contact-chip" data-contact-type="call"><i class="fas fa-phone-alt"></i> Ligação</div></div>`;
+            optionsDiv.innerHTML = `<strong> Falar com atendente humano:</strong><br>Escolha uma opção abaixo:<div class="contact-options-chat"><div class="contact-chip" data-contact-type="whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</div><div class="contact-chip" data-contact-type="sms"><i class="fas fa-sms"></i> SMS</div><div class="contact-chip" data-contact-type="call"><i class="fas fa-phone-alt"></i> Ligação</div></div>`;
             chatMessages.appendChild(optionsDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
             document.querySelectorAll('.contact-chip').forEach(chip => {
@@ -1189,32 +1189,32 @@
             
             // Menu principal / Ajuda
             if(q.includes('menu') || q.includes('ajuda') || q.includes('opções') || q.includes('opcoes') || q.includes('oque voce faz') || q.includes('o que você faz')) {
-                return `📋 **MENU DE AJUDA - Agência Miller**\n\n🔹 Digite "pacotes" para ver todos os pacotes e preços\n🔹 Digite "pagamento" para ver métodos de pagamento\n🔹 Digite "como comprar" para ver o passo a passo\n🔹 Digite "prazo" para saber o tempo de ativação\n🔹 Digite "contato" para falar com atendente humano\n🔹 Digite "sobre" para saber quem somos\n\n💬 Qual informação você precisa?`;
+                return ` **MENU DE AJUDA - Agência Miller**\n\n Digite "pacotes" para ver todos os pacotes e preços\n Digite "pagamento" para ver métodos de pagamento\n Digite "como comprar" para ver o passo a passo\n Digite "prazo" para saber o tempo de ativação\n Digite "contato" para falar com atendente humano\n Digite "sobre" para saber quem somos\n\n Qual informação você precisa?`;
             }
             
             // Pacotes
             if(q.includes('pacote') || q.includes('internet') || q.includes('dados') || q.includes('mb') || q.includes('giga') || q.includes('gb') || q.includes('tabela')) {
-                return `📦 **PACOTES DISPONÍVEIS:**\n\n📅 **DIÁRIOS:**\n247MB (7MT) | 353MB (10MT) | 529MB (15MT) | 715MB (20MT) | 1050MB (30MT) | 1480MB (40MT) | 1756MB (50MT) | 2640MB (75MT) | 3580MB (100MT)\n\n📆 **SEMANAIS:**\n857MB (30MT) | 1785MB (50MT) | 2967MB (85MT) | 3468MB (100MT) | 5300MB (150MT) | 7150MB (200MT) | 10750MB (300MT)\n\n📅 **MENSAIS:**\n2879MB (100MT) | 7050MB (200MT) | 10569MB (300MT) | 17980MB (500MT) | 35878MB (1000MT) | 71590MB (2000MT)`;
+                return ` **PACOTES DISPONÍVEIS:**\n\n **DIÁRIOS:**\n247MB (7MT) | 353MB (10MT) | 529MB (15MT) | 715MB (20MT) | 1050MB (30MT) | 1480MB (40MT) | 1756MB (50MT) | 2640MB (75MT) | 3580MB (100MT)\n\n **SEMANAIS:**\n857MB (30MT) | 1785MB (50MT) | 2967MB (85MT) | 3468MB (100MT) | 5300MB (150MT) | 7150MB (200MT) | 10750MB (300MT)\n\n **MENSAIS:**\n2879MB (100MT) | 7050MB (200MT) | 10569MB (300MT) | 17980MB (500MT) | 35878MB (1000MT) | 71590MB (2000MT)`;
             }
             
             // Preços
             if(q.includes('valor') || q.includes('preço') || q.includes('custa') || q.includes('quanto') || q.includes('preco')) {
-                return `💰 **TABELA DE PREÇOS:**\n\n• Pacotes Diários: 7MT a 100MT\n• Pacotes Semanais: 30MT a 300MT\n• Pacotes Mensais: 100MT a 2000MT\n\nOs preços variam conforme a quantidade de dados. Digite "pacotes" para ver a lista completa!`;
+                return ` **TABELA DE PREÇOS:**\n\n• Pacotes Diários: 7MT a 100MT\n• Pacotes Semanais: 30MT a 300MT\n• Pacotes Mensais: 100MT a 2000MT\n\nOs preços variam conforme a quantidade de dados. Digite "pacotes" para ver a lista completa!`;
             }
             
             // Pagamento
             if(q.includes('pagamento') || q.includes('pagar') || q.includes('emola') || q.includes('pagafácil') || q.includes('paga fácil') || q.includes('transferência') || q.includes('transferir') || q.includes('como pago')) {
-                return `💳 **MÉTODOS DE PAGAMENTO:**\n\n✅ **eMola:** Número 867047493 - Aster Eusébio Serrote\n✅ **Vodacom Paga Fácil:** Código 1232359 - EUGENIO-Venda Online\n\n📲 Use os botões "Fazer pagamento" na seção DADOS PARA PAGAMENTO para aceder diretamente aos menus USSD.*898# para eMola ou *150# para Paga Fácil.\n\nApós o pagamento, registre seus dados no formulário ao lado!`;
+                return ` **MÉTODOS DE PAGAMENTO:**\n\n✅ **eMola:** Número 867047493 - Aster Eusébio Serrote\n✅ **Vodacom Paga Fácil:** Código 1232359 - EUGENIO-Venda Online\n\n Use os botões "Fazer pagamento" na seção DADOS PARA PAGAMENTO para aceder diretamente aos menus USSD.*898# para eMola ou *150# para Paga Fácil.\n\nApós o pagamento, registre seus dados no formulário ao lado!`;
             }
             
             // Como comprar
             if(q.includes('como comprar') || q.includes('comprar') || q.includes('adquirir') || q.includes('como adquirir') || q.includes('processo') || q.includes('passo a passo')) {
-                return `🛒 **PASSO A PASSO PARA COMPRAR:**\n\n1️⃣ Escolha um pacote na lista ao lado (clique sobre ele)\n2️⃣ Faça o pagamento para eMola ou Paga Fácil (use os botões de discagem rápida)\n3️⃣ Preencha o formulário com seus dados (nome e celular)\n4️⃣ Aguarde a confirmação - o status muda para "Pago"\n5️⃣ Seu pacote será ativado em até 24h úteis!\n\n✅ Simples e rápido!`;
+                return ` **PASSO A PASSO PARA COMPRAR:**\n\n1️⃣ Escolha um pacote na lista ao lado (clique sobre ele)\n2️⃣ Faça o pagamento para eMola ou Paga Fácil (use os botões de discagem rápida)\n3️⃣ Preencha o formulário com seus dados (nome e celular)\n4️⃣ Aguarde a confirmação - o status muda para "Pago"\n5️⃣ Seu pacote será ativado em até 24h úteis!\n\n✅ Simples e rápido!`;
             }
             
             // Prazo
             if(q.includes('prazo') || q.includes('demora') || q.includes('ativação') || q.includes('ativar') || q.includes('quanto tempo') || q.includes('quando') || q.includes('ativacao')) {
-                return `⏱️ **PRAZO DE ATIVAÇÃO:**\n\nApós o registro do pagamento no sistema, a ativação do seu pacote de internet é feita em até **24 horas úteis**.\n\n📊 Você pode acompanhar o status no **HISTÓRICO DE PAGAMENTOS**. Quando aparecer "Pago", seu pacote já está ativo e pronto para uso!\n\n📞 Se ultrapassar 24h, entre em contato conosco.`;
+                return `⏱️ **PRAZO DE ATIVAÇÃO:**\n\nApós o registro do pagamento no sistema, a ativação do seu pacote de internet é feita em até **24 horas úteis**.\n\n Você pode acompanhar o status no **HISTÓRICO DE PAGAMENTOS**. Quando aparecer "Pago", seu pacote já está ativo e pronto para uso!\n\n Se ultrapassar 24h, entre em contato conosco.`;
             }
             
             // Contato humano
@@ -1225,16 +1225,16 @@
             
             // Sobre a empresa
             if(q.includes('quem é') || q.includes('agência') || q.includes('miller') || q.includes('sobre') || q.includes('empresa')) {
-                return `🏢 **Agência Miller**\n\nSomos especialistas em ofertas de internet com os melhores preços do mercado. Trabalhamos com pacotes de dados para operadora Vodacom, com pagamento facilitado via eMola e Paga Fácil.\n\n🎯 **Missão:** Oferecer internet de qualidade e acessível para todos.\n✅ **Confiança e qualidade** são nossos valores!`;
+                return ` **Agência Miller**\n\nSomos especialistas em ofertas de internet com os melhores preços do mercado. Trabalhamos com pacotes de dados para operadora Vodacom, com pagamento facilitado via eMola e Paga Fácil.\n\n **Missão:** Oferecer internet de qualidade e acessível para todos.\n✅ **Confiança e qualidade** são nossos valores!`;
             }
             
             // Saudação
             if(q.includes('olá') || q.includes('oi') || q.includes('bom dia') || q.includes('boa tarde') || q.includes('boa noite') || q.includes('ola') || q.includes('hello') || q.includes('hi')) {
-                return `👋 Olá! Bem-vindo à **Agência Miller**! Como posso ajudá-lo hoje?\n\nDigite "menu" para ver todas as opções disponíveis ou me faça uma pergunta específica sobre:\n• Pacotes e preços\n• Pagamentos\n• Prazos de ativação\n• Como comprar`;
+                return ` Olá! Bem-vindo à **Agência Miller**! Como posso ajudá-lo hoje?\n\nDigite "menu" para ver todas as opções disponíveis ou me faça uma pergunta específica sobre:\n• Pacotes e preços\n• Pagamentos\n• Prazos de ativação\n• Como comprar`;
             }
             
             // Resposta padrão com menu
-            return `❓ Desculpe, não entendi sua pergunta.\n\n📋 **Digite "menu"** para ver todas as opções de ajuda ou escolha uma das perguntas abaixo:\n\n• "pacotes" - Lista completa\n• "pagamento" - Como pagar\n• "como comprar" - Passo a passo\n• "prazo" - Tempo de ativação\n• "contato" - Falar com atendente\n\n💬 Como posso ajudar você hoje?`;
+            return `❓ Desculpe, não entendi sua pergunta.\n\n **Digite "menu"** para ver todas as opções de ajuda ou escolha uma das perguntas abaixo:\n\n• "pacotes" - Lista completa\n• "pagamento" - Como pagar\n• "como comprar" - Passo a passo\n• "prazo" - Tempo de ativação\n• "contato" - Falar com atendente\n\n Como posso ajudar você hoje?`;
         }
 
         async function sendMessage() {
